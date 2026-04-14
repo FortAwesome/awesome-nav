@@ -17,6 +17,7 @@ Relevant assets:
 
 ## Current Limitations
 
+- **Not yet published on `npm`**
 - Tooltip on active primary tab is not shown at small viewports.
 - Dark mode is specific to `prefers-color-scheme: dark` media query.
 - Build Awesome icon is not yet available in Font Awesome core. Examples will be updated when this ships.
