@@ -46,8 +46,8 @@ ${this.tagName}:has(.awesome-nav-primary) a[href]:not(.awesome-nav-primary) {
 			width: auto;
 			overflow: visible;
 			clip: auto;
-			color: #fff;
-			background-color: var(--brand-navy);
+			color: var(--awesome-nav-tooltip-fg);
+			background-color: var(--awesome-nav-tooltip-bg);
 			border-radius: .25em;
 			font-size: 0.75rem; /* 12px /16 */
 			font-family: system-ui, sans-serif;
@@ -66,7 +66,7 @@ ${this.tagName}:has(.awesome-nav-primary) a[href]:not(.awesome-nav-primary) {
 				translate: -50% -100%;
 				border-left: .5em solid transparent;
 				border-right: .5em solid transparent;
-				border-bottom: .5em solid var(--brand-navy);
+				border-bottom: .5em solid var(--awesome-nav-tooltip-bg);
 			}
 		}
 	

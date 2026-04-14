@@ -24,12 +24,16 @@ awesome-nav {
 	--awesome-nav-padding: 1em;
 	--awesome-nav-padding-primary: var(--awesome-nav-padding);
 	--awesome-nav-max: 69em;
+	--awesome-nav-tooltip-bg: var(--brand-navy);
+	--awesome-nav-tooltip-fg: #fff;
 
 	@media (prefers-color-scheme: dark) {
 		--awesome-nav-bg: #222; /* Web Awesome #090a0f; */
 		--awesome-nav-fg: #fff;
 		--awesome-nav-icon-color: #fff;
 		--awesome-nav-tab-bg: #0c0c0c; /* Web Awesome #101218; */
+		--awesome-nav-tooltip-bg: #fff;
+		--awesome-nav-tooltip-fg: var(--brand-navy);
 	}
 
 	@media (width >= 35em) { /* 560px */
