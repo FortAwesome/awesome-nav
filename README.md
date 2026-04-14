@@ -13,7 +13,6 @@ Relevant assets:
 
 - CSS Nesting
 - WOFF2 for brand wordmarks (Cera Round Pro, aggressively subset to A-Z uppercase)
-- Enhancement: [`descent-override`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@font-face/descent-override) to enable emulated web font metric compatibility for reduced layout shift
 
 ## Current Limitations
 
