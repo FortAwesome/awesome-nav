@@ -115,12 +115,15 @@ awesome-nav a[href] {
 	}
 }
 /* First three nav items should be Cera pre-JS */
-awesome-nav:not(:defined) a[href]:is(.awesome-nav-build, .awesome-nav-font, .awesome-nav-web),
-awesome-nav:defined a[href] {
-	font-family: Awesome Nav Subset, system-ui, sans-serif;
-	text-transform: uppercase;
-	letter-spacing: .16em;
-	font-weight: 900;
+awesome-nav {
+	&:not(:defined) a[href]:is(.awesome-nav-build, .awesome-nav-font, .awesome-nav-web),
+	&:defined a[href],
+	a[href].awesome-nav-primary {
+		font-family: Awesome Nav Subset, system-ui, sans-serif;
+		text-transform: uppercase;
+		letter-spacing: .16em;
+		font-weight: 900;
+	}
 }
 
 
