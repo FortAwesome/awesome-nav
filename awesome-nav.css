@@ -114,18 +114,6 @@ awesome-nav a[href] {
 		--awesome-nav-icon-color: var(--brand-wa);
 	}
 }
-/* First three nav items should be Cera pre-JS */
-awesome-nav {
-	&:not(:defined) a[href]:is(.awesome-nav-build, .awesome-nav-font, .awesome-nav-web),
-	&:defined a[href],
-	a[href].awesome-nav-primary {
-		font-family: Awesome Nav Subset, system-ui, sans-serif;
-		text-transform: uppercase;
-		letter-spacing: .16em;
-		font-weight: 900;
-	}
-}
-
 
 /* primary (may not be first) */
 awesome-nav:not(:has(.awesome-nav-primary)) a[href]:first-child,
@@ -135,16 +123,18 @@ awesome-nav a[href].awesome-nav-primary {
 	padding: 1em var(--awesome-nav-padding-primary);
 	margin-inline: var(--awesome-nav-padding);
 
+	/* Brand font */
+	font-family: Awesome Nav Subset, system-ui, sans-serif;
+	text-transform: uppercase;
+	letter-spacing: .16em;
+	font-weight: 900;
+
 	.awesome-sr-only {
 		line-height: 1;
 
 		@media (width < 35em) { /* 560px */
 			display: none;
 		}
-	}
-
-	& ~ a[href] {
-		padding: 1em;
 	}
 }
 
