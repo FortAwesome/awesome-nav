@@ -36,7 +36,7 @@ awesome-nav {
 		--awesome-nav-tooltip-fg: var(--brand-navy);
 	}
 
-	@media (width >= 35em) { /* 560px */
+	@media (width >= 36.875em) { /* 590px */
 		--awesome-nav-padding-primary: 2em;
 	}
 
@@ -132,7 +132,7 @@ awesome-nav a[href].awesome-nav-primary {
 	.awesome-sr-only {
 		line-height: 1;
 
-		@media (width < 35em) { /* 560px */
+		@media (width < 36.875em) { /* 590px */
 			display: none;
 		}
 	}
