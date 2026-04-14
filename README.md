@@ -12,6 +12,7 @@ Relevant assets:
 ## Browser Support Minimums
 
 - CSS Nesting
+- `:has()`
 - WOFF2 for brand wordmarks (Cera Round Pro, aggressively subset to A-Z uppercase)
 
 ## Current Limitations
