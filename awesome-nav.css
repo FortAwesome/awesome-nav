@@ -4,7 +4,7 @@
 	src: url(./awesome-navbar.woff2) format("woff2");
 	font-display: swap;
 	descent-override: 6%;
-	unicode-range: U+41-5A; /* Only A-Z */
+	unicode-range: U+41-5A; /* A-Z */
 }
 
 awesome-nav,

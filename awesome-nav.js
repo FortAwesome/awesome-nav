@@ -15,14 +15,6 @@ class AwesomeNav extends HTMLElement {
 		}
 	}
 
-	static getShadowStyle() {
-		return css`
-::slotted(a[href]) {
-	padding: var(--awesome-nav-spacing);
-}
-`
-	}
-
 	static getGlobalStyle() {
 		return css`
 .${this.classes.spacer} {
@@ -128,16 +120,6 @@ ${this.tagName}:has(.awesome-nav-primary) a[href]:not(.awesome-nav-primary) {
 		document.adoptedStyleSheets.push(sheet);
 	}
 
-	shouldShowWordmark(node) {
-		if(node.closest(".awesome-nav-primary")) {
-			return true;
-		}
-		if(this.querySelector(".awesome-nav-primary")) {
-			return false;
-		}
-		return !node.previousElementSibling;
-	}
-
 	hasExistingIcon(el) {
 		return Boolean(el.querySelector("svg,wa-icon,i[class*='fa-']"));
 	}
@@ -158,13 +140,7 @@ ${this.tagName}:has(.awesome-nav-primary) a[href]:not(.awesome-nav-primary) {
 
 			this.wrapInnerText(el);
 
-			let hasIcon = this.hasExistingIcon(el);
-
-			// if(!this.shouldShowWordmark(el)) {
-			// 	// Hide wordmark
-			// 	el.childNodes[el.childNodes.length - 1].classList.add(AwesomeNav.classes.srOnly);
-			// }
-			if(icon && !hasIcon) {
+			if(icon && !this.hasExistingIcon(el)) {
 				el.prepend(this.createElement(logos[name]))
 			}
 		}
