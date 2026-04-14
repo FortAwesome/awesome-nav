@@ -1,6 +1,6 @@
 # Awesomeverse Universal Navigation
 
-Used on fontawesome.com, webawesome.com, 11ty.dev, blog.fontawesome.com, and (aspirationally) podcastawesome.com.
+Intended for use on fontawesome.com, docs.fontawesome.com, webawesome.com, 11ty.dev, blog.fontawesome.com, and (aspirationally) podcastawesome.com.
 
 Compatible with Font Awesome web font `<i>` icons, `<svg>` embedded icons (and Build Awesome’s icon plugin), and Web Awesome’s `<wa-icon>`.
 

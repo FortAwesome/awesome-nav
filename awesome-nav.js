@@ -132,20 +132,18 @@ ${this.tagName}:has(.awesome-nav-primary) a[href]:not(.awesome-nav-primary) {
 		AwesomeNav.connected();
 
 		let logos = this.getLogoHtml();
-		for(let [name, icon] of Object.entries(logos)) {
-			let el = this[name + "Link"];
-			if(!el) {
-				continue;
-			}
-
+		for(let el of this.querySelectorAll(":scope > nav > a[href]")) {
 			this.wrapInnerText(el);
+		}
 
-			if(icon && !this.hasExistingIcon(el)) {
-				el.prepend(this.createElement(logos[name]))
+		for(let [name, icon] of Object.entries(logos)) {
+			let linkEl = this[name + "Link"];
+			if(icon && !this.hasExistingIcon(linkEl)) {
+				linkEl.prepend(this.createElement(icon))
 			}
 		}
 
-		(this.secondaryNav || this.podcastLink)?.insertAdjacentElement("beforebegin", this.getSpacer());
+		this.podcastLink?.insertAdjacentElement("beforebegin", this.getSpacer());
 	}
 
 	getSpacer() {
@@ -167,9 +165,6 @@ ${this.tagName}:has(.awesome-nav-primary) a[href]:not(.awesome-nav-primary) {
 		node.append(w);
 	}
 
-	get secondaryNav() {
-		return this.querySelector("[slot='secondary']");
-	}
 	get buildLink() {
 		return this.querySelector(".awesome-nav-build");
 	}
