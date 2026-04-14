@@ -8,7 +8,6 @@ Relevant assets:
 
 - `awesome-nav.css`
 - `awesome-nav.js`
-- `awesome-navbar-subset.woff2`
 
 ## Browser Support Minimums
 
@@ -21,3 +20,7 @@ Relevant assets:
 - Tooltip on active primary tab is not shown at small viewports.
 - Dark mode is specific to `prefers-color-scheme: dark` media query.
 - Build Awesome icon is not yet available in Font Awesome core. Examples will be updated when this ships.
+
+## Scratchpad
+
+- Used `npx datauri-cli assets/cera-round-pro-black.woff2 | pbcopy` to create Data URI for CSS file.
