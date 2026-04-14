@@ -1,0 +1,13 @@
+{
+  "name": "awesome-navbar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "awesome-nav.js",
+  "scripts": {
+    "start": "npx @11ty/eleventy-dev-server --domdiff=false"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@11ty/eleventy-dev-server": "^3.0.0-alpha.8"
+  }
+}

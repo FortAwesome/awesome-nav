@@ -1,0 +1,155 @@
+@font-face {
+	font-family: Awesome Nav Subset; /* Cera Round Pro */
+	font-weight: 900;
+	src: url(./awesome-navbar.woff2) format("woff2");
+	font-display: swap;
+	descent-override: 6%;
+	unicode-range: U+41-5A; /* Only A-Z */
+}
+
+awesome-nav,
+awesome-nav * {
+	box-sizing: border-box;
+}
+
+awesome-nav {
+	--brand-ba: #00a776;
+	--brand-fa: #548cd8;
+	--brand-wa: #f36945;
+	--brand-navy: #183153;
+
+	--awesome-nav-bg: rgb(240 241 243);
+	--awesome-nav-tab-bg: #fff;
+	--awesome-nav-fg: var(--brand-navy);
+	--awesome-nav-icon-color: var(--brand-navy);
+	--awesome-nav-padding: 1em;
+	--awesome-nav-padding-primary: var(--awesome-nav-padding);
+	--awesome-nav-max: 69em;
+
+	@media (prefers-color-scheme: dark) {
+		--awesome-nav-bg: #222; /* Web Awesome #090a0f; */
+		--awesome-nav-fg: #fff;
+		--awesome-nav-icon-color: #fff;
+		--awesome-nav-tab-bg: #0c0c0c; /* Web Awesome #101218; */
+	}
+
+	@media (width >= 35em) { /* 560px */
+		--awesome-nav-padding-primary: 2em;
+	}
+
+	display: flex;
+	align-items: flex-end;
+	background-color: var(--awesome-nav-bg);
+	color: var(--awesome-nav-fg);
+	font-weight: 500;
+	font-family: system-ui, sans-serif;
+	min-height: 4.25rem; /* 68px /16 */
+
+	wa-icon {
+		font-size: 1.25em; /* 20px /16 */
+	}
+
+	.awesome-spacer {
+		flex-grow: 1;
+	}
+}
+
+awesome-nav > nav {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	height: 100%;
+	padding: .5rem 0 0 0;
+	margin-inline: auto;
+	align-items: center;
+	max-width: calc(var(--awesome-nav-max) + 2rem);
+}
+
+/* Icons */
+awesome-nav {
+	svg {
+		width: auto;
+		aspect-ratio: 1/1;
+		height: 1.75em;
+		fill: currentColor;
+	}
+
+	i[class*="fa-"],
+	wa-icon {
+		font-size: 1.4em;
+	}
+
+	svg,
+	i[class*="fa-"],
+	wa-icon {
+		color: var(--awesome-nav-icon-color);
+	}
+}
+
+awesome-nav a[href] {
+	display: flex;
+	gap: .5em;
+	align-items: center;
+	color: inherit;
+	text-decoration: none;
+	padding: 1em var(--awesome-nav-padding);
+	min-height: 3.75em;
+	font-size: 0.875em; /* 14px /16 */
+	font-family: system-ui, sans-serif;
+	text-transform: none;
+	letter-spacing: 0;
+	font-weight: 600;
+	color: var(--awesome-nav-fg);
+
+	&.awesome-nav-build {
+		--awesome-nav-icon-color: var(--brand-ba);
+	}
+	&.awesome-nav-font {
+		--awesome-nav-icon-color: var(--brand-fa);
+	}
+	&.awesome-nav-web {
+		--awesome-nav-icon-color: var(--brand-wa);
+	}
+}
+/* First three nav items should be Cera pre-JS */
+awesome-nav:not(:defined) a[href]:is(.awesome-nav-build, .awesome-nav-font, .awesome-nav-web),
+awesome-nav:defined a[href] {
+	font-family: Awesome Nav Subset, system-ui, sans-serif;
+	text-transform: uppercase;
+	letter-spacing: .16em;
+	font-weight: 900;
+}
+
+
+/* primary (may not be first) */
+awesome-nav:not(:has(.awesome-nav-primary)) a[href]:first-child,
+awesome-nav a[href].awesome-nav-primary {
+	background-color: var(--awesome-nav-tab-bg);
+	border-radius: 0.1875em .1875em 0 0; /* 3px /16 */
+	padding: 1em var(--awesome-nav-padding-primary);
+	margin-inline: var(--awesome-nav-padding);
+
+	.awesome-sr-only {
+		line-height: 1;
+
+		@media (width < 35em) { /* 560px */
+			display: none;
+		}
+	}
+
+	& ~ a[href] {
+		padding: 1em;
+	}
+}
+
+awesome-nav:has(.awesome-nav-build:is(:hover, :focus)) {
+	background-color: color-mix(in oklab, var(--brand-ba), var(--awesome-nav-bg) 85%);
+}
+awesome-nav:has(.awesome-nav-font:is(:hover, :focus)) {
+	background-color: color-mix(in oklab, var(--brand-fa), var(--awesome-nav-bg) 85%);
+}
+awesome-nav:has(.awesome-nav-web:is(:hover, :focus)) {
+	background-color: color-mix(in oklab, var(--brand-wa), var(--awesome-nav-bg) 85%);
+}
+
+/* Tooltips are styled in JS */
