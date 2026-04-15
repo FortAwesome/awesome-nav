@@ -28,19 +28,20 @@ awesome-nav {
 	--awesome-nav-tooltip-fg: #fff;
 
 	@media (prefers-color-scheme: dark) {
-		--awesome-nav-bg: #222; /* Web Awesome #090a0f; */
+		--awesome-nav-bg: #222;
 		--awesome-nav-fg: #fff;
 		--awesome-nav-icon-color: #fff;
-		--awesome-nav-tab-bg: #0c0c0c; /* Web Awesome #101218; */
+		--awesome-nav-tab-bg: #0c0c0c;
 		--awesome-nav-tooltip-bg: #fff;
 		--awesome-nav-tooltip-fg: var(--brand-navy);
 	}
 
+	/* Match color scheme values above */
 	&[theme="dark"] {
-		--awesome-nav-bg: #222; /* Web Awesome #090a0f; */
+		--awesome-nav-bg: #222;
 		--awesome-nav-fg: #fff;
 		--awesome-nav-icon-color: #fff;
-		--awesome-nav-tab-bg: #0c0c0c; /* Web Awesome #101218; */
+		--awesome-nav-tab-bg: #0c0c0c;
 		--awesome-nav-tooltip-bg: #fff;
 		--awesome-nav-tooltip-fg: var(--brand-navy);
 	}
