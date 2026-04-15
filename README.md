@@ -5,7 +5,7 @@ Intended for use on:
 - [fontawesome.com](https://fontawesome.com/)
 - [docs.fontawesome.com](https://docs.fontawesome.com/)
 - [webawesome.com](https://webawesome.com/)
-- [11ty.dev](https://www.11ty.dev/)
+- [11ty.dev](https://www.11ty.dev/) and [build.awesome.me](https://build.awesome.me/) and 
 - [blog.fontawesome.com](https://blog.fontawesome.com/)
 - and (aspirationally) [podcastawesome.com](https://www.podcastawesome.com/)
 
