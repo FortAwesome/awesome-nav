@@ -17,15 +17,19 @@ awesome-nav {
 	--brand-wa: #f36945;
 	--brand-navy: #183153;
 
-	--awesome-nav-bg: rgb(240 241 243);
-	--awesome-nav-tab-bg: #fff;
-	--awesome-nav-fg: var(--brand-navy);
-	--awesome-nav-icon-color: var(--brand-navy);
 	--awesome-nav-padding: 1em;
 	--awesome-nav-padding-primary: var(--awesome-nav-padding);
 	--awesome-nav-max: 69em;
-	--awesome-nav-tooltip-bg: var(--brand-navy);
-	--awesome-nav-tooltip-fg: #fff;
+
+	&,
+	&[theme="light"] /* overrides prefers-color-scheme */ {
+		--awesome-nav-bg: #f0f1f3;
+		--awesome-nav-tab-bg: #fff;
+		--awesome-nav-fg: var(--brand-navy);
+		--awesome-nav-icon-color: var(--brand-navy);
+		--awesome-nav-tooltip-bg: var(--brand-navy);
+		--awesome-nav-tooltip-fg: #fff;
+	}
 
 	@media (prefers-color-scheme: dark) {
 		--awesome-nav-bg: #222;
@@ -39,9 +43,9 @@ awesome-nav {
 	/* Match color scheme values above */
 	&[theme="dark"] {
 		--awesome-nav-bg: #222;
+		--awesome-nav-tab-bg: #0c0c0c;
 		--awesome-nav-fg: #fff;
 		--awesome-nav-icon-color: #fff;
-		--awesome-nav-tab-bg: #0c0c0c;
 		--awesome-nav-tooltip-bg: #fff;
 		--awesome-nav-tooltip-fg: var(--brand-navy);
 	}
