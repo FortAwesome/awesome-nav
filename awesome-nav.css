@@ -143,6 +143,13 @@ awesome-nav a[href].awesome-nav-primary {
 	letter-spacing: .16em;
 	font-weight: 900;
 
+	@media (width >= 36.875em) { /* 590px */
+		&:before,
+		&:after {
+			display: none;
+		}
+	}
+
 	.awesome-sr-only {
 		line-height: 1;
 
@@ -152,14 +159,20 @@ awesome-nav a[href].awesome-nav-primary {
 	}
 }
 
+awesome-nav:has(.awesome-nav-primary:is(:hover, :focus)) {
+	--awesome-nav-bgmix: var(--brand-navy);
+}
 awesome-nav:has(.awesome-nav-build:is(:hover, :focus)) {
-	background-color: color-mix(in oklab, var(--brand-ba), var(--awesome-nav-bg) 85%);
+	--awesome-nav-bgmix: var(--brand-ba);
 }
 awesome-nav:has(.awesome-nav-font:is(:hover, :focus)) {
-	background-color: color-mix(in oklab, var(--brand-fa), var(--awesome-nav-bg) 85%);
+	--awesome-nav-bgmix: var(--brand-fa);
 }
 awesome-nav:has(.awesome-nav-web:is(:hover, :focus)) {
-	background-color: color-mix(in oklab, var(--brand-wa), var(--awesome-nav-bg) 85%);
+	--awesome-nav-bgmix: var(--brand-wa);
+}
+awesome-nav:has(a[href]:is(.awesome-nav-web, .awesome-nav-build, .awesome-nav-font, .awesome-nav-primary):is(:hover, :focus)) {
+	background-color: color-mix(in oklab, var(--awesome-nav-bgmix), var(--awesome-nav-bg) 85%);
 }
 
 /* Tooltips are styled in JS */

@@ -9,6 +9,9 @@ class AwesomeNav extends HTMLElement {
 		spacer: "awesome-spacer",
 		primary: "awesome-nav-primary",
 	};
+	static attrs = {
+		label: "data-label"
+	}
 
 	static define(registry = window.customElements) {
 		if(!registry.get(this.tagName)) {
@@ -22,17 +25,11 @@ class AwesomeNav extends HTMLElement {
 	flex-grow: 1;
 }
 
-${this.tagName}:not(:has(.${this.classes.primary})) a[href]:not(:first-child),
-${this.tagName}:has(.${this.classes.primary}) a[href]:not(.${this.classes.primary}) {
+${this.tagName} a[href][${this.attrs.label}] {
+	position: relative;
 
-	.${this.classes.srOnly} {
+	&:after {
 		position: absolute;
-		height: 1px;
-		width: 1px;
-		overflow: hidden;
-		clip: rect(1px, 1px, 1px, 1px);
-		opacity: 0;
-
 		color: var(--awesome-nav-tooltip-fg);
 		background-color: var(--awesome-nav-tooltip-bg);
 		border-radius: .25em;
@@ -43,61 +40,73 @@ ${this.tagName}:has(.${this.classes.primary}) a[href]:not(.${this.classes.primar
 		font-weight: 400;
 		padding: .25em .5em;
 		white-space: nowrap;
+		opacity: 0;
 		transition: 600ms opacity;
 	}
 
 	&:is(:hover, :focus-visible) {
-		position: relative;
-	
 		/* center align */
-		.${this.classes.srOnly} {
-			bottom: .5em;
+		&:after {
+			content: attr(${this.attrs.label});
+			bottom: .35em;
 			left: 50%;
 			translate: -50% 100%;
 			z-index: 999;
-			height: auto;
-			width: auto;
-			overflow: visible;
-			clip: auto;
 			opacity: 1;
-	
-			&:before {
-				content: "";
-				position: absolute;
-				top: 0;
-				left: 50%;
-				translate: -50% -100%;
-				border-left: .5em solid transparent;
-				border-right: .5em solid transparent;
-				border-bottom: .5em solid var(--awesome-nav-tooltip-bg);
-			}
+		}
+
+		&:before {
+			/* arrow */
+			content: "";
+			position: absolute;
+			bottom: -.25em;
+			left: 50%;
+			translate: -50% -100%;
+			border-left: .5em solid transparent;
+			border-right: .5em solid transparent;
+			border-bottom: .5em solid var(--awesome-nav-tooltip-bg);
 		}
 	
 		/* right align */
-		&.awesome-nav-blog:last-child .${this.classes.srOnly} {
-			left: auto;
-			right: 0;
-			translate: 0 100%;
-			margin-inline-start: 0;
+		&.awesome-nav-blog:last-child {
+			&:after {
+				left: auto;
+				right: 0;
+				translate: 0 100%;
+				margin-inline-start: 0;
+			}
 	
 			&:before {
 				left: auto;
-				right: 1em;
+				right: .9em;
 			}
 		}
 	
 		/* left align */
-		&:first-child .${this.classes.srOnly} {
-			left: 0;
-			right: auto;
-			translate: 0 100%;
+		&:first-child {
+			&:after { 
+				left: 0;
+				right: auto;
+				translate: 0 100%;
+			}
 	
 			&:before {
-				left: 2.25em;
+				left: 1.9em;
 				right: auto;
 			}
 		}
 	}
+}
+
+/* hide non-primary tab text */
+${this.tagName}:not(:has(.${this.classes.primary})) a[href]:not(:first-child) .${this.classes.srOnly},
+${this.tagName}:has(.${this.classes.primary}) a[href]:not(.${this.classes.primary}) .${this.classes.srOnly} {
+	position: absolute;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+	clip: rect(1px, 1px, 1px, 1px);
+	opacity: 0;
 }
 `;
 	}
@@ -161,8 +170,10 @@ ${this.tagName}:has(.${this.classes.primary}) a[href]:not(.${this.classes.primar
 
 	wrapInnerText(node) {
 		let w = document.createElement("span");
-		w.append(...Array.from(node.childNodes).filter(c => c.nodeType === 3));
+		let textNodes = Array.from(node.childNodes).filter(c => c.nodeType === 3);
+		w.append(...textNodes);
 		w.classList.add(AwesomeNav.classes.srOnly);
+		node.setAttribute(AwesomeNav.attrs.label, textNodes.map(c => c.textContent).join(", "))
 		node.append(w);
 	}
 
