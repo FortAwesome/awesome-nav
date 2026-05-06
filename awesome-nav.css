@@ -20,6 +20,7 @@ awesome-nav {
 	--awesome-nav-padding: 1em;
 	--awesome-nav-padding-primary: var(--awesome-nav-padding);
 	--awesome-nav-max: 69em;
+	--awesome-nav-bgmix-time: 400ms;
 
 	&,
 	&[theme="light"] /* overrides prefers-color-scheme */ {
@@ -193,8 +194,12 @@ awesome-nav:has(.awesome-nav-font:is(:hover, :focus)) {
 awesome-nav:has(.awesome-nav-web:is(:hover, :focus)) {
 	--awesome-nav-bgmix: var(--brand-wa);
 }
-awesome-nav:has(a[href]:is(.awesome-nav-web, .awesome-nav-build, .awesome-nav-font, .awesome-nav-primary):is(:hover, :focus)) {
-	background-color: color-mix(in oklab, var(--awesome-nav-bgmix), var(--awesome-nav-bg) 85%);
+awesome-nav:has(a[href]:is(.awesome-nav-web, .awesome-nav-build, .awesome-nav-font, .awesome-nav-primary)) {
+	transition: background-color var(--awesome-nav-bgmix-time);
+
+	&:has(:is(:hover, :focus)) {
+		background-color: color-mix(in oklab, var(--awesome-nav-bgmix), var(--awesome-nav-bg) 80%);
+	}
 }
 
 /* Tooltips are styled in JS */
