@@ -188,6 +188,10 @@ awesome-nav:has(a[href]:is(.awesome-nav-web, .awesome-nav-build, .awesome-nav-fo
 
 /* Only show icons (where available) pre-JS to reduce CLS */
 awesome-nav:not(:defined) {
+	wa-icon {
+		display: none;
+	}
+
 	&:not(:has(.awesome-nav-primary)) a[href]:not(:first-child),
 	&:has(.awesome-nav-primary) a[href]:not(.awesome-nav-primary) {
 		&:has(i, svg) {
