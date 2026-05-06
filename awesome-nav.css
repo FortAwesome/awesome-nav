@@ -167,19 +167,16 @@ awesome-nav a[href].awesome-nav-primary {
 		}
 	}
 
-	@media (width < 38.75em) { /* 620px */
-		&:has(.awesome-sr-only) {
-			gap: 0;
-		}
-	}
-
 	.awesome-sr-only {
 		line-height: 1;
 
 		@media (width < 38.75em) { /* 620px */
-			width: 1px;
+			position: absolute;
 			height: 1px;
-			overflow: clip;
+			width: 1px;
+			overflow: hidden;
+			clip: rect(1px, 1px, 1px, 1px);
+			opacity: 0;
 		}
 	}
 }
