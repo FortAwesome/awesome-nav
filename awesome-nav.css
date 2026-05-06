@@ -186,17 +186,19 @@ awesome-nav:has(a[href]:is(.awesome-nav-web, .awesome-nav-build, .awesome-nav-fo
 	background-color: color-mix(in oklab, var(--awesome-nav-bgmix), var(--awesome-nav-bg) 80%);
 }
 
-/* Hide Awesome suffix pre-JS on non-primary Podcast/Blog */
+/* Only show icons (where available) pre-JS to reduce CLS */
 awesome-nav:not(:defined) {
-	.awesome-nav-podcast:not(.awesome-nav-primary),
-	.awesome-nav-blog:not(.awesome-nav-primary) {
-		word-spacing: 8em;
-		white-space: nowrap;
-		max-width: 8em;
-		overflow: hidden;
-
-		svg {
-			min-width: 1.75em;
+	&:not(:has(.awesome-nav-primary)) a[href]:not(:first-child),
+	&:has(.awesome-nav-primary) a[href]:not(.awesome-nav-primary) {
+		&:has(i, svg) {
+			max-width: 3.75em;
+			overflow: hidden;
+			white-space: nowrap;
+			color: transparent;
+	
+			i, svg {
+				position: absolute;
+			}
 		}
 	}
 }
