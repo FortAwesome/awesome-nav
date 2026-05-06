@@ -119,13 +119,6 @@ awesome-nav a[href] {
 	font-weight: 600;
 	color: var(--awesome-nav-fg);
 
-	&:first-child {
-		margin-inline-start: var(--awesome-nav-padding);
-	}
-	&:last-child {
-		margin-inline-end: var(--awesome-nav-padding);
-	}
-
 	&.awesome-nav-build {
 		--awesome-nav-icon-color: var(--brand-ba);
 	}
@@ -143,15 +136,7 @@ awesome-nav a[href].awesome-nav-primary {
 	background-color: var(--awesome-nav-tab-bg);
 	border-radius: 0.1875em .1875em 0 0; /* 3px /16 */
 	padding: 1em var(--awesome-nav-padding-primary);
-
-	@media (width < 38.75em) { /* 620px */
-		&:not(:first-child) {
-			margin-inline-start: 0;
-		}
-		&:not(:last-child) {
-			margin-inline-end: 0;
-		}
-	}
+	margin-inline: var(--awesome-nav-padding);
 
 	/* Brand font */
 	font-family: Awesome Nav Subset, system-ui, sans-serif;
