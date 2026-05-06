@@ -139,7 +139,7 @@ awesome-nav a[href].awesome-nav-primary {
 	margin-inline: var(--awesome-nav-padding);
 
 	/* Brand font */
-	font-family: Awesome Nav Subset, system-ui, sans-serif;
+	font-family: Awesome Nav Subset, Cera Round Pro, system-ui, sans-serif;
 	text-transform: uppercase;
 	letter-spacing: .16em;
 	font-weight: 900;
