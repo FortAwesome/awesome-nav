@@ -196,10 +196,9 @@ awesome-nav:has(.awesome-nav-web:is(:hover, :focus)) {
 }
 awesome-nav:has(a[href]:is(.awesome-nav-web, .awesome-nav-build, .awesome-nav-font, .awesome-nav-primary)) {
 	transition: background-color var(--awesome-nav-bgmix-time);
-
-	&:has(:is(:hover, :focus)) {
-		background-color: color-mix(in oklab, var(--awesome-nav-bgmix), var(--awesome-nav-bg) 80%);
-	}
+}
+awesome-nav:has(a[href]:is(.awesome-nav-web, .awesome-nav-build, .awesome-nav-font, .awesome-nav-primary):is(:hover, :focus)) {
+	background-color: color-mix(in oklab, var(--awesome-nav-bgmix), var(--awesome-nav-bg) 80%);
 }
 
 /* Tooltips are styled in JS */
