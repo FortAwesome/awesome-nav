@@ -52,6 +52,7 @@ awesome-nav {
 	}
 
 	@media (width >= 38.75em) { /* 620px */
+		--awesome-nav-padding: 1.25em;
 		--awesome-nav-padding-primary: 2em;
 	}
 
@@ -85,20 +86,23 @@ awesome-nav > nav {
 
 /* Icons */
 awesome-nav {
-	svg {
-		width: auto;
-		aspect-ratio: 1/1;
-		height: 1.75em;
-		fill: currentColor;
-	}
-
 	i[class*="fa-"],
 	wa-icon {
 		font-size: 1.4em;
 	}
 
 	svg,
+	svg.fa11ty-icon {
+		aspect-ratio: 1/1;
+		width: auto;
+		height: 1.75em;
+		fill: currentColor;
+		font-size: 1em;
+	}
+
+	svg,
 	i[class*="fa-"],
+	.fa11ty-icon,
 	wa-icon {
 		color: var(--awesome-nav-icon-color);
 	}

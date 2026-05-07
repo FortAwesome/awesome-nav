@@ -10,7 +10,7 @@ class AwesomeNav extends HTMLElement {
 		primary: "awesome-nav-primary",
 	};
 	static attrs = {
-		label: "data-label"
+		label: "data-tooltip"
 	}
 
 	static define(registry = window.customElements) {
