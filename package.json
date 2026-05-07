@@ -1,8 +1,9 @@
 {
-  "name": "awesome-navbar",
+  "name": "awesome-nav",
   "version": "1.0.0",
-  "description": "",
+  "description": "Web component for the Awesomeverse unified navbar. <awesome-nav>",
   "main": "awesome-nav.js",
+  "private": true,
   "scripts": {
     "start": "npx @11ty/eleventy-dev-server --domdiff=false"
   },

@@ -16,6 +16,8 @@ Relevant assets:
 - `awesome-nav.css`
 - `awesome-nav.js`
 
+See `index.html` for usage examples.
+
 ## Browser Support Minimums
 
 - CSS Nesting
