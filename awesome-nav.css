@@ -137,6 +137,7 @@ awesome-nav a[href] {
 /* primary (may not be first) */
 awesome-nav:not(:has(.awesome-nav-primary)) a[href]:first-child,
 awesome-nav a[href].awesome-nav-primary {
+	color: var(--awesome-nav-fg-primary);
 	background-color: var(--awesome-nav-tab-bg);
 	border-radius: 0.1875em .1875em 0 0; /* 3px /16 */
 	padding: 1em var(--awesome-nav-padding-primary);
@@ -168,6 +169,13 @@ awesome-nav a[href].awesome-nav-primary {
 			clip: rect(1px, 1px, 1px, 1px);
 			opacity: 0;
 		}
+	}
+
+	svg,
+	i[class*="fa-"],
+	.fa11ty-icon,
+	wa-icon {
+		color: var(--awesome-nav-icon-color-primary);
 	}
 }
 
@@ -203,7 +211,7 @@ awesome-nav:not(:defined) {
 			overflow: hidden;
 			white-space: nowrap;
 			color: transparent;
-	
+
 			i, svg {
 				position: absolute;
 			}
