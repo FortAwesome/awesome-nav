@@ -111,7 +111,7 @@ ${this.tagName}:has(.${this.classes.primary}) a[href]:not(.${this.classes.primar
 `;
 	}
 
-	getLogoHtml() {
+	static getLogoHtml() {
 		// need a {key}Link getter
 		return {
 			build: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M10 2a7 7 0 0 1 7 7c0 3.2-2.8 6.3-5.2 7.5l.6 1.3a.8.8 0 0 1-.7 1.2H8.3a.8.8 0 0 1-.7-1.2l.6-1.3C5.8 15.3 3 12.2 3 9a7 7 0 0 1 7-7m-.3 3.1q-.1-.7-.8-.6-1.3.3-2.2 1.2-.9 1-1.2 2.2A.8.8 0 0 0 7 8q.1-.7.8-1.3.6-.6 1.3-.8t.6-.9"/></svg>`,
@@ -129,10 +129,6 @@ ${this.tagName}:has(.${this.classes.primary}) a[href]:not(.${this.classes.primar
 		document.adoptedStyleSheets.push(sheet);
 	}
 
-	hasExistingIcon(el) {
-		return Boolean(el.querySelector("svg,wa-icon,i[class*='fa-']"));
-	}
-
 	connectedCallback() {
 		if (!("replaceSync" in CSSStyleSheet.prototype) || this.shadowRoot) {
 			return;
@@ -140,16 +136,16 @@ ${this.tagName}:has(.${this.classes.primary}) a[href]:not(.${this.classes.primar
 
 		AwesomeNav.connected();
 
-		let logos = this.getLogoHtml();
+		let logos = AwesomeNav.getLogoHtml();
 		for(let el of this.querySelectorAll(":scope > nav > a[href]")) {
-			this.wrapInnerText(el);
+			AwesomeNav.wrapInnerText(el);
 		}
 
 		// Inject Build icon
 		for(let [name, icon] of Object.entries(logos)) {
 			let linkEl = this[name + "Link"];
-			if(icon && !this.hasExistingIcon(linkEl)) {
-				linkEl.prepend(this.createElement(icon))
+			if(icon && !AwesomeNav.hasExistingIcon(linkEl)) {
+				linkEl.prepend(AwesomeNav.createElement(icon))
 			}
 		}
 
@@ -166,27 +162,34 @@ ${this.tagName}:has(.${this.classes.primary}) a[href]:not(.${this.classes.primar
 		return d;
 	}
 
-	createElement(html) {
-		let tmpl = document.createElement("template");
-		tmpl.innerHTML = html;
-		return tmpl.content.firstElementChild;
-	}
-
-	wrapInnerText(node) {
-		let w = document.createElement("span");
-		let textNodes = Array.from(node.childNodes).filter(c => c.nodeType === 3);
-		w.append(...textNodes);
-		w.classList.add(AwesomeNav.classes.srOnly);
-		node.setAttribute(AwesomeNav.attrs.label, textNodes.map(c => c.textContent).join(", "))
-		node.append(w);
-	}
-
 	get buildLink() {
 		return this.querySelector(".awesome-nav-build");
 	}
 	
 	get podcastLink() {
 		return this.querySelector(".awesome-nav-podcast");
+	}
+
+	/* Utility functions */
+	static hasExistingIcon(el) {
+		return Boolean(el.querySelector("svg,wa-icon,i[class*='fa-']"));
+	}
+
+	static createElement(html) {
+		let tmpl = document.createElement("template");
+		tmpl.innerHTML = html;
+		return tmpl.content.firstElementChild;
+	}
+
+	static wrapInnerText(node) {
+		let w = document.createElement("span");
+		let textNodes = Array.from(node.childNodes).filter(c => c.nodeType === 3);
+		w.append(...textNodes);
+		w.classList.add(AwesomeNav.classes.srOnly);
+		if(!node.hasAttribute(AwesomeNav.attrs.label)) {
+			node.setAttribute(AwesomeNav.attrs.label, textNodes.map(c => c.textContent).join(", "))
+		}
+		node.append(w);
 	}
 }
 
