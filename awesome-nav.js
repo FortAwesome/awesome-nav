@@ -157,6 +157,10 @@ ${this.tagName}:has(.${this.classes.primary}) a[href]:not(.${this.classes.primar
 	}
 
 	getSpacer() {
+		let s = this.querySelector(`.${AwesomeNav.classes.spacer}`);
+		if(s) {
+			return s;
+		}
 		let d = document.createElement("div");
 		d.classList.add(AwesomeNav.classes.spacer);
 		return d;
