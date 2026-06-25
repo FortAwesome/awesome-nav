@@ -6,6 +6,7 @@ For use on:
 - [docs.fontawesome.com](https://docs.fontawesome.com/)
 - [webawesome.com](https://webawesome.com/)
 - [11ty.dev](https://www.11ty.dev/) and [build.awesome.me](https://build.awesome.me/)
+- [look.awesome.me](https://look.awesome.me/)
 - [blog.fontawesome.com](https://blog.fontawesome.com/) (deployed)
 - and (aspirationally) [podcastawesome.com](https://www.podcastawesome.com/)
 

@@ -15,6 +15,7 @@ awesome-nav {
 	--brand-ba: #00a776;
 	--brand-fa: #548cd8;
 	--brand-wa: #f36945;
+	--brand-la: #eb6fbd;
 	--brand-navy: #183153;
 
 	--awesome-nav-padding: 1em;
@@ -132,6 +133,9 @@ awesome-nav a[href] {
 	&.awesome-nav-web {
 		--awesome-nav-icon-color: var(--brand-wa);
 	}
+	&.awesome-nav-look {
+		--awesome-nav-icon-color: var(--brand-la);
+	}
 }
 
 /* primary (may not be first) */
@@ -191,10 +195,13 @@ awesome-nav:has(.awesome-nav-font:is(:hover, :focus)) {
 awesome-nav:has(.awesome-nav-web:is(:hover, :focus)) {
 	--awesome-nav-bgmix: var(--brand-wa);
 }
-awesome-nav:has(a[href]:is(.awesome-nav-web, .awesome-nav-build, .awesome-nav-font, .awesome-nav-primary)) {
+awesome-nav:has(.awesome-nav-look:is(:hover, :focus)) {
+	--awesome-nav-bgmix: var(--brand-la);
+}
+awesome-nav:has(a[href]:is(.awesome-nav-web, .awesome-nav-build, .awesome-nav-font, .awesome-nav-look, .awesome-nav-primary)) {
 	transition: background-color var(--awesome-nav-bgmix-time);
 }
-awesome-nav:has(a[href]:is(.awesome-nav-web, .awesome-nav-build, .awesome-nav-font, .awesome-nav-primary):is(:hover, :focus)) {
+awesome-nav:has(a[href]:is(.awesome-nav-web, .awesome-nav-build, .awesome-nav-font, .awesome-nav-look, .awesome-nav-primary):is(:hover, :focus)) {
 	background-color: color-mix(in oklab, var(--awesome-nav-bgmix), var(--awesome-nav-bg) 80%);
 }
 
