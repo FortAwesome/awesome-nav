@@ -28,7 +28,6 @@ See `index.html` for usage examples.
 ## Current Limitations
 
 - **Not yet published on `npm`**
-- Build Awesome icon is not yet available in Font Awesome core. Examples will be updated when this ships.
 
 ## Scratchpad
 
