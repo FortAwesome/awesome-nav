@@ -11,7 +11,7 @@
 		<!-- Optional -->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.0/css/all.css" fetchpriority="low">
 		<!-- Optional -->
-		<script type="module" src="https://ka-f.webawesome.com/webawesome@3.9.0/components/icon/icon.js" fetchpriority="low"></script>
+		<script type="module" src="https://ka-f.webawesome.com/webawesome@3.10.0/components/icon/icon.js" fetchpriority="low"></script>
 
 		<!-- Demo Styles -->
 		<style>
@@ -46,8 +46,7 @@
 		<header>
 			<h1>Awesome Navbar Demo</h1>
 			<p>Return to the <a href="https://github.com/FortAwesome/awesome-navbar">code on GitHub</a>.</p>
-			<p><strong>Note:</strong> for Web Awesome <code>&lt;wa-icon&gt;</code> approaches these must be updated to use the Build Awesome brand icon (not yet in WA as of v3.9.0). Until available, this icon is injected via JS. Font Awesome added the Build Awesome brand icon in v7.3.0</p>
-			<p><strong>Note:</strong> <code>&lt;span class="awesome-spacer"&gt;</code> is optional but does reduce CLS.</p>
+			<p><strong>Note:</strong> <code>&lt;span class="awesome-spacer"&gt;</code> is optional but does reduce cumulative layout shift (CLS).</p>
 			<p><label><input type="checkbox" id="show-themes"> Show light and dark theme variants</label></p>
 		</header>
 		
@@ -179,9 +178,9 @@
 			<p>Using <code>&lt;wa-icon&gt;</code> (except for Build Awesome balloon): all require JavaScript. <code>~83em</code> max width.</p>
 			<awesome-nav style="--awesome-nav-max: 83.1875em">
 				<nav>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><wa-icon name="web-awesome"></wa-icon>Web Awesome</a>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><wa-icon name="font-awesome"></wa-icon>Font Awesome</a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build">Build Awesome</a>
+					<a href="https://webawesome.com/" class="awesome-nav-web"><wa-icon name="web-awesome" family="brands"></wa-icon>Web Awesome</a>
+					<a href="https://fontawesome.com/" class="awesome-nav-font"><wa-icon name="font-awesome" family="brands"></wa-icon>Font Awesome</a>
+					<a href="https://build.awesome.me/" class="awesome-nav-build"><wa-icon name="build-awesome" family="brands"></wa-icon>Build Awesome</a>
 					<a href="https://look.awesome.me/" class="awesome-nav-look"><wa-icon name="palette"></wa-icon>Look Awesome</a>
 					<span class="awesome-spacer"></span>
 				</nav>
@@ -190,9 +189,9 @@
 			<p>Always <code>light</code> theme</p>
 			<awesome-nav style="--awesome-nav-max: 83.1875em" theme="light">
 				<nav>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><wa-icon name="web-awesome"></wa-icon>Web Awesome</a>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><wa-icon name="font-awesome"></wa-icon>Font Awesome</a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build">Build Awesome</a>
+					<a href="https://webawesome.com/" class="awesome-nav-web"><wa-icon name="web-awesome" family="brands"></wa-icon>Web Awesome</a>
+					<a href="https://fontawesome.com/" class="awesome-nav-font"><wa-icon name="font-awesome" family="brands"></wa-icon>Font Awesome</a>
+					<a href="https://build.awesome.me/" class="awesome-nav-build"><wa-icon name="build-awesome" family="brands"></wa-icon>Build Awesome</a>
 					<a href="https://look.awesome.me/" class="awesome-nav-look"><wa-icon name="palette"></wa-icon>Look Awesome</a>
 					<span class="awesome-spacer"></span>
 				</nav>
@@ -201,9 +200,9 @@
 			<p>Always <code>dark</code> theme</p>
 			<awesome-nav style="--awesome-nav-max: 83.1875em" theme="dark">
 				<nav>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><wa-icon name="web-awesome"></wa-icon>Web Awesome</a>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><wa-icon name="font-awesome"></wa-icon>Font Awesome</a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build">Build Awesome</a>
+					<a href="https://webawesome.com/" class="awesome-nav-web"><wa-icon name="web-awesome" family="brands"></wa-icon>Web Awesome</a>
+					<a href="https://fontawesome.com/" class="awesome-nav-font"><wa-icon name="font-awesome" family="brands"></wa-icon>Font Awesome</a>
+					<a href="https://build.awesome.me/" class="awesome-nav-build"><wa-icon name="build-awesome" family="brands"></wa-icon>Build Awesome</a>
 					<a href="https://look.awesome.me/" class="awesome-nav-look"><wa-icon name="palette"></wa-icon>Look Awesome</a>
 					<span class="awesome-spacer"></span>
 				</nav>

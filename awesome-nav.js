@@ -111,13 +111,6 @@ ${this.tagName}:has(.${this.classes.primary}) a[href]:not(.${this.classes.primar
 `;
 	}
 
-	static getLogoHtml() {
-		// need a {key}Link getter
-		return {
-			build: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M10 2a7 7 0 0 1 7 7c0 3.2-2.8 6.3-5.2 7.5l.6 1.3a.8.8 0 0 1-.7 1.2H8.3a.8.8 0 0 1-.7-1.2l.6-1.3C5.8 15.3 3 12.2 3 9a7 7 0 0 1 7-7m-.3 3.1q-.1-.7-.8-.6-1.3.3-2.2 1.2-.9 1-1.2 2.2A.8.8 0 0 0 7 8q.1-.7.8-1.3.6-.6 1.3-.8t.6-.9"/></svg>`,
-		}
-	}
-
 	static connected() {
 		if(this.#init) {
 			return;
@@ -136,17 +129,8 @@ ${this.tagName}:has(.${this.classes.primary}) a[href]:not(.${this.classes.primar
 
 		AwesomeNav.connected();
 
-		let logos = AwesomeNav.getLogoHtml();
 		for(let el of this.querySelectorAll(":scope > nav > a[href]")) {
 			AwesomeNav.wrapInnerText(el);
-		}
-
-		// Inject Build icon
-		for(let [name, icon] of Object.entries(logos)) {
-			let linkEl = this[name + "Link"];
-			if(icon && !AwesomeNav.hasExistingIcon(linkEl)) {
-				linkEl.prepend(AwesomeNav.createElement(icon))
-			}
 		}
 
 		this.podcastLink?.insertAdjacentElement("beforebegin", this.getSpacer());
