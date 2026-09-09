@@ -166,6 +166,10 @@ ${this.tagName}:has(.${this.classes.primary}) a[href]:not(.${this.classes.primar
 	}
 
 	static wrapInnerText(node) {
+		if(node.querySelector(`:scope > .${this.classes.srOnly}`)) {
+			return;
+		}
+
 		let w = document.createElement("span");
 		let textNodes = Array.from(node.childNodes).filter(c => c.nodeType === 3);
 		w.append(...textNodes);
