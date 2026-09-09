@@ -17,7 +17,7 @@ Relevant assets:
 - `awesome-nav.css`
 - `awesome-nav.js`
 
-See `index.html` for usage examples.
+Use the [builder](https://fortawesome.github.io/awesome-navbar/) (`index.html`) to generate the markup for your site.
 
 ## Browser Support Minimums
 

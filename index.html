@@ -3,330 +3,505 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Unified navigation for the Awesomeverse suite">
-		<title>Awesome Navbar Demo</title>
+		<meta name="description" content="Build the markup for the Awesomeverse unified navigation">
+		<title>Awesome Unified Nav Builder</title>
 		<link rel="stylesheet" href="awesome-nav.css">
 		<script type="module" src="awesome-nav.js"></script>
 
-		<!-- Optional -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.0/css/all.css" fetchpriority="low">
-		<!-- Optional -->
-		<script type="module" src="https://ka-f.webawesome.com/webawesome@3.10.0/components/icon/icon.js" fetchpriority="low"></script>
-
-		<!-- Demo Styles -->
 		<style>
-		body {
-			font-family: system-ui, sans-serif;
-			margin: 0;
-			padding-block-end: 40vh;
+		:root {
+			color-scheme: light dark;
+			--page-fg: #183153;
+			--page-bg: #fff;
+			--page-muted: #5a6b83;
+			--page-line: #d7dce4;
+			--page-code-bg: #f0f1f3;
 
 			@media (prefers-color-scheme: dark) {
-				background-color: #0c0c0c;
-				color: #fff;
-			}
-		}
-		:is(main, header) > :is(h1, h2, h3, p) {
-			padding-inline: 1rem;
-			max-width: 40rem;
-			margin-inline: auto;
-		}
-		body:not(:has(#show-themes:checked)) {
-			p:has(+ awesome-nav[theme]),
-			awesome-nav[theme] {
-				display: none;
+				--page-fg: #fff;
+				--page-bg: #0c0c0c;
+				--page-muted: #a3adbd;
+				--page-line: #333;
+				--page-code-bg: #1a1a1a;
 			}
 		}
 
-		awesome-nav + awesome-nav {
-			margin-top: 1em;
+		*,
+		*:before,
+		*:after {
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: system-ui, sans-serif;
+			line-height: 1.5;
+			margin: 0;
+			padding: 0 0 6rem;
+			color: var(--page-fg);
+			background-color: var(--page-bg);
+		}
+
+		:is(header, main, footer) {
+			max-width: 90rem;
+			margin-inline: auto;
+			padding-inline: 1rem;
+		}
+
+		h1 {
+			margin-block-end: .25em;
+		}
+
+		h2 {
+			font-size: 1.125rem;
+			margin-block: 2rem .5rem;
+		}
+
+		.lede {
+			margin-block-start: 0;
+			color: var(--page-muted);
+		}
+
+		/* Form */
+		.builder {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+			gap: 1rem 1.5rem;
+			align-items: start;
+			padding: 1rem;
+			border: 1px solid var(--page-line);
+			border-radius: .5rem;
+		}
+
+		.builder fieldset {
+			border: none;
+			margin: 0;
+			padding: 0;
+			min-width: 0;
+		}
+
+		.builder legend {
+			padding: 0;
+			font-weight: 600;
+			font-size: .875rem;
+		}
+
+		.builder select,
+		.builder input[type="text"] {
+			width: 100%;
+			margin-block-start: .375rem;
+			padding: .375rem;
+			font: inherit;
+			font-size: .9375rem;
+			color: inherit;
+			background-color: var(--page-bg);
+			border: 1px solid var(--page-line);
+			border-radius: .25rem;
+		}
+
+		.builder label:has(input) {
+			display: flex;
+			gap: .5em;
+			align-items: center;
+			font-size: .9375rem;
+		}
+
+		.builder label:has(input:disabled) {
+			color: var(--page-muted);
+		}
+
+		.radios {
+			display: flex;
+			flex-wrap: wrap;
+			gap: .25rem 1rem;
+			margin-block-start: .375rem;
+		}
+
+		.checks {
+			margin-block-start: .375rem;
+			display: grid;
+			gap: .25rem;
+		}
+
+		.builder-actions {
+			grid-column: 1 / -1;
+			display: flex;
+			justify-content: flex-end;
+			border-block-start: 1px solid var(--page-line);
+			padding-block-start: 1rem;
+		}
+
+		button {
+			font: inherit;
+			font-size: .875rem;
+			padding: .375em .875em;
+			color: inherit;
+			background-color: var(--page-bg);
+			border: 1px solid var(--page-line);
+			border-radius: .25rem;
+			cursor: pointer;
+
+			&:hover {
+				background-color: var(--page-code-bg);
+			}
+		}
+
+		/* Preview */
+		.previews {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 1.5rem;
+		}
+
+		/* Fixed widths sit side by side until they no longer fit; 100% claims its own row. */
+		.preview {
+			flex: 0 0 var(--preview-width);
+			max-width: 100%;
+			margin: 0;
+		}
+
+		.preview figcaption {
+			font-size: .8125rem;
+			color: var(--page-muted);
+			margin-block-end: .375rem;
+		}
+
+		.preview-frame {
+			display: block;
+			width: 100%;
+			/* Room for the tooltips, which hang below the nav. */
+			min-height: 10rem;
+			border: 1px solid var(--page-line);
+			border-radius: .25rem;
+			background-color: var(--page-bg);
+		}
+
+		.note {
+			font-size: .8125rem;
+			color: var(--page-muted);
+			margin-block: .5rem 0;
+		}
+
+		/* Output */
+		.output {
+			position: relative;
+		}
+
+		.output pre {
+			margin: 0;
+			padding: 1rem;
+			overflow-x: auto;
+			font-size: .8125rem;
+			line-height: 1.6;
+			tab-size: 2;
+			background-color: var(--page-code-bg);
+			border-radius: .25rem;
+		}
+
+		.output button {
+			position: absolute;
+			top: .5rem;
+			right: .5rem;
+		}
+
+		h2:has(+ .output) {
+			display: flex;
+			gap: .5em;
+			align-items: baseline;
+			justify-content: space-between;
 		}
 		</style>
 	</head>
 	<body>
+		<awesome-nav style="--awesome-nav-max: 90rem">
+			<nav>
+				<a href="https://fontawesome.com/" class="awesome-nav-font awesome-nav-primary" data-tooltip="Font Awesome"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M155.7 160a52 52 0 1 0-59.7-3v419h64v-64h373.6a26.4 26.4 0 0 0 24.1-37.1L496 336l61.7-138.9a26.4 26.4 0 0 0-24.1-37.1z"/></svg><span class="awesome-sr-only">Font Awesome</span></a>
+				<a href="https://webawesome.com/" class="awesome-nav-web" data-tooltip="Web Awesome"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M372.2 116C372.2 136.9 359.8 155 342 163.2L448 256L552.4 235.1C547.1 227.4 544 218 544 208C544 181.5 565.5 160 592 160C618.5 160 640 181.5 640 208C640 234 619.4 255.1 593.6 256L481 506.3C470.7 529.3 447.8 544 422.6 544L217.4 544C192.2 544 169.4 529.2 159 506.3L46.4 256C20.6 255.1 0 234 0 208C0 181.5 21.5 160 48 160C74.5 160 96 181.5 96 208C96 218.1 92.9 227.4 87.6 235.1L192 256L298.1 163.1C280.4 154.8 268.1 136.8 268.1 116C268.1 87.3 291.4 64 320.1 64C348.8 64 372.1 87.3 372.1 116z"/></svg><span class="awesome-sr-only">Web Awesome</span></a>
+				<a href="https://build.awesome.me/" class="awesome-nav-build" data-tooltip="Build Awesome"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M10 2a7 7 0 0 1 7 7c0 3.2-2.8 6.3-5.2 7.5l.6 1.3a.8.8 0 0 1-.7 1.2H8.3a.8.8 0 0 1-.7-1.2l.6-1.3C5.8 15.3 3 12.2 3 9a7 7 0 0 1 7-7m-.3 3.1q-.1-.7-.8-.6-1.3.3-2.2 1.2-.9 1-1.2 2.2A.8.8 0 0 0 7 8q.1-.7.8-1.3.6-.6 1.3-.8t.6-.9"/></svg><span class="awesome-sr-only">Build Awesome</span></a>
+				<span class="awesome-spacer"></span>
+				<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast" data-tooltip="Podcast Awesome"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M432 423.8a176 176 0 1 0-224 0c.4 17.6 3.2 40.4 6.4 61.8a224 224 0 1 1 211.1 0c3.3-21.4 6-44.2 6.4-61.8zm-14-53.4a86 86 0 0 0-30.4-27.8l-6.3-3.2a80 80 0 1 0-122.4 0q-3.2 1.4-6.3 3.2a86 86 0 0 0-30.4 27.8 128 128 0 1 1 195.8 0m-98 5.6c32.9 0 64 8.6 64 43.8 0 33-12.9 104.1-20.6 132.9-5.1 19-24.5 23.4-43.4 23.4s-38.2-4.4-43.4-23.4C268.8 524.2 256 453 256 419.9c0-35.1 31.1-43.8 64-43.8zm0-128a40 40 0 1 1 0 80 40 40 0 0 1 0-80"/></svg><span class="awesome-sr-only">Podcast Awesome</span></a>
+				<a href="https://blog.fontawesome.com/" class="awesome-nav-blog" data-tooltip="Blog Awesome"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M64 480V184a24 24 0 1 1 48 0v288a24 24 0 1 0 48 0V160a64 64 0 0 1 64-64h288a64 64 0 0 1 64 64v320a64 64 0 0 1-64 64H128a64 64 0 0 1-64-64m160-288v64a32 32 0 0 0 32 32h64a32 32 0 0 0 32-32v-64a32 32 0 0 0-32-32h-64a32 32 0 0 0-32 32m24 240a24 24 0 1 0 0 48h240a24 24 0 1 0 0-48zm-24-72a24 24 0 0 0 24 24h240a24 24 0 1 0 0-48H248a24 24 0 0 0-24 24m200-120a24 24 0 1 0 0 48h64a24 24 0 1 0 0-48z"/></svg><span class="awesome-sr-only">Blog Awesome</span></a>
+			</nav>
+		</awesome-nav>
+
 		<header>
-			<h1>Awesome Navbar Demo</h1>
-			<p>Return to the <a href="https://github.com/FortAwesome/awesome-navbar">code on GitHub</a>.</p>
-			<p><strong>Note:</strong> <code>&lt;span class="awesome-spacer"&gt;</code> is optional but does reduce cumulative layout shift (CLS).</p>
-			<p><label><input type="checkbox" id="show-themes"> Show light and dark theme variants</label></p>
+			<h1>Awesome Unified Nav Builder</h1>
+			<p class="lede">Pick your options, copy the markup. Source on <a href="https://github.com/FortAwesome/awesome-navbar">GitHub</a>.</p>
 		</header>
-		
+
 		<main>
-			<h2>fontawesome.com</h2>
-			<p>Using Font Awesome <code>&lt;i&gt;</code> (Web Font): no JavaScript required for icons.</p>
-			<awesome-nav>
-				<nav>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span></a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><i class="fa-brands fa-web-awesome"></i><span class="awesome-sr-only">Web Awesome</span></a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><i class="fa-brands fa-build-awesome"></i><span class="awesome-sr-only">Build Awesome</span></a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><i class="fa-solid fa-palette"></i><span class="awesome-sr-only">Look Awesome</span></a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast"><i class="fa-solid fa-podcast"></i><span class="awesome-sr-only">Podcast Awesome</span></a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog"><i class="fa-solid fa-newspaper"></i><span class="awesome-sr-only">Blog Awesome</span></a>
-				</nav>
-			</awesome-nav>
+			<form class="builder" id="builder">
+				<fieldset>
+					<legend><label for="primary">Primary web site</label></legend>
+					<select id="primary" name="primary">
+						<option value="font">fontawesome.com</option>
+						<option value="docs">docs.fontawesome.com</option>
+						<option value="web">webawesome.com</option>
+						<option value="build">build.awesome.me</option>
+						<option value="look">look.awesome.me</option>
+						<option value="podcast">podcastawesome.com</option>
+						<option value="blog">blog.fontawesome.com</option>
+					</select>
+				</fieldset>
 
-			<p>Always <code>light</code> theme</p>
-			<awesome-nav theme="light">
-				<nav>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span></a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><i class="fa-brands fa-web-awesome"></i><span class="awesome-sr-only">Web Awesome</span></a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><i class="fa-brands fa-build-awesome"></i><span class="awesome-sr-only">Build Awesome</span></a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><i class="fa-solid fa-palette"></i><span class="awesome-sr-only">Look Awesome</span></a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast"><i class="fa-solid fa-podcast"></i><span class="awesome-sr-only">Podcast Awesome</span></a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog"><i class="fa-solid fa-newspaper"></i><span class="awesome-sr-only">Blog Awesome</span></a>
-				</nav>
-			</awesome-nav>
+				<fieldset>
+					<legend><label for="max">Max width</label></legend>
+					<input type="text" id="max" name="max" placeholder="69em" spellcheck="false" autocomplete="off">
+				</fieldset>
 
-			<p>Always <code>dark</code> theme</p>
-			<awesome-nav theme="dark">
-				<nav>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span></a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><i class="fa-brands fa-web-awesome"></i><span class="awesome-sr-only">Web Awesome</span></a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><i class="fa-brands fa-build-awesome"></i><span class="awesome-sr-only">Build Awesome</span></a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><i class="fa-solid fa-palette"></i><span class="awesome-sr-only">Look Awesome</span></a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast"><i class="fa-solid fa-podcast"></i><span class="awesome-sr-only">Podcast Awesome</span></a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog"><i class="fa-solid fa-newspaper"></i><span class="awesome-sr-only">Blog Awesome</span></a>
-				</nav>
-			</awesome-nav>
+				<fieldset>
+					<legend>Color mode</legend>
+					<div class="radios">
+						<label><input type="radio" name="theme" value="auto" checked> Auto</label>
+						<label><input type="radio" name="theme" value="light"> Light</label>
+						<label><input type="radio" name="theme" value="dark"> Dark</label>
+					</div>
+				</fieldset>
 
-			<h2>docs.fontawesome.com</h2>
-			<p>No page-level max width. Using <code>&lt;i&gt;</code> (Web Font): no JavaScript required for icons.</p>
-			<awesome-nav style="--awesome-nav-max: 100%">
-				<nav>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span></a>
-					<a href="https://docs.fontawesome.com/" class="awesome-nav-primary"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome Docs</span></a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><i class="fa-brands fa-web-awesome"></i><span class="awesome-sr-only">Web Awesome</span></a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><i class="fa-brands fa-build-awesome"></i><span class="awesome-sr-only">Build Awesome</span></a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><i class="fa-solid fa-palette"></i><span class="awesome-sr-only">Look Awesome</span></a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast"><i class="fa-solid fa-podcast"></i><span class="awesome-sr-only">Podcast Awesome</span></a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog"><i class="fa-solid fa-newspaper"></i><span class="awesome-sr-only">Blog Awesome</span></a>
-				</nav>
-			</awesome-nav>
+				<fieldset>
+					<legend>Optional links</legend>
+					<div class="checks">
+						<label><input type="checkbox" name="docs"> Include Font Awesome Docs</label>
+						<label><input type="checkbox" name="look"> Include Look Awesome</label>
+					</div>
+				</fieldset>
 
-			<p>Always <code>light</code> theme</p>
-			<awesome-nav theme="light" style="--awesome-nav-max: 100%">
-				<nav>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span></a>
-					<a href="https://docs.fontawesome.com/" class="awesome-nav-primary"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span> Docs</a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><i class="fa-brands fa-web-awesome"></i><span class="awesome-sr-only">Web Awesome</span></a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><i class="fa-brands fa-build-awesome"></i><span class="awesome-sr-only">Build Awesome</span></a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><i class="fa-solid fa-palette"></i><span class="awesome-sr-only">Look Awesome</span></a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast"><i class="fa-solid fa-podcast"></i><span class="awesome-sr-only">Podcast Awesome</span></a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog"><i class="fa-solid fa-newspaper"></i><span class="awesome-sr-only">Blog Awesome</span></a>
-				</nav>
-			</awesome-nav>
+				<fieldset>
+					<legend><label for="icons">Where to pull icons?</label></legend>
+					<select id="icons" name="icons">
+						<option value="fa">Font Awesome web font &lt;i&gt;</option>
+						<option value="wa">Web Awesome &lt;wa-icon&gt;</option>
+						<option value="ba">Build Awesome icon plugin</option>
+						<option value="svg">Inline &lt;svg&gt; (no dependencies)</option>
+					</select>
+					<div class="checks">
+						<label><input type="checkbox" checked disabled> Include web font subset</label>
+					</div>
+					<p class="note">Cera Round Pro wordmark for the primary tab, already inlined in <code>awesome-nav.css</code>.</p>
+				</fieldset>
 
-			<p>Always <code>dark</code> theme</p>
-			<awesome-nav theme="dark" style="--awesome-nav-max: 100%">
-				<nav>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span></a>
-					<a href="https://docs.fontawesome.com/" class="awesome-nav-primary"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span> Docs</a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><i class="fa-brands fa-web-awesome"></i><span class="awesome-sr-only">Web Awesome</span></a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><i class="fa-brands fa-build-awesome"></i><span class="awesome-sr-only">Build Awesome</span></a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><i class="fa-solid fa-palette"></i><span class="awesome-sr-only">Look Awesome</span></a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast"><i class="fa-solid fa-podcast"></i><span class="awesome-sr-only">Podcast Awesome</span></a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog"><i class="fa-solid fa-newspaper"></i><span class="awesome-sr-only">Blog Awesome</span></a>
-				</nav>
-			</awesome-nav>
+				<div class="builder-actions">
+					<button type="button" id="reset">Reset to defaults</button>
+				</div>
+			</form>
 
-			<h2>build.awesome.me (soon) née 11ty.dev</h2>
-			<p>Embedded icons: no JavaScript required.</p>
-			<awesome-nav>
-				<nav>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M10 2a7 7 0 0 1 7 7c0 3.2-2.8 6.3-5.2 7.5l.6 1.3a.8.8 0 0 1-.7 1.2H8.3a.8.8 0 0 1-.7-1.2l.6-1.3C5.8 15.3 3 12.2 3 9a7 7 0 0 1 7-7m-.3 3.1q-.1-.7-.8-.6-1.3.3-2.2 1.2-.9 1-1.2 2.2A.8.8 0 0 0 7 8q.1-.7.8-1.3.6-.6 1.3-.8t.6-.9"/></svg>Build Awesome</a>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M155.7 160a52 52 0 1 0-59.7-3v419h64v-64h373.6a26.4 26.4 0 0 0 24.1-37.1L496 336l61.7-138.9a26.4 26.4 0 0 0-24.1-37.1z"/></svg>Font Awesome</a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M372.2 116C372.2 136.9 359.8 155 342 163.2L448 256L552.4 235.1C547.1 227.4 544 218 544 208C544 181.5 565.5 160 592 160C618.5 160 640 181.5 640 208C640 234 619.4 255.1 593.6 256L481 506.3C470.7 529.3 447.8 544 422.6 544L217.4 544C192.2 544 169.4 529.2 159 506.3L46.4 256C20.6 255.1 0 234 0 208C0 181.5 21.5 160 48 160C74.5 160 96 181.5 96 208C96 218.1 92.9 227.4 87.6 235.1L192 256L298.1 163.1C280.4 154.8 268.1 136.8 268.1 116C268.1 87.3 291.4 64 320.1 64C348.8 64 372.1 87.3 372.1 116z"/></svg>Web Awesome</a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M576 320C576 320.9 576 321.8 576 322.7C575.6 359.2 542.4 384 505.9 384L408 384C381.5 384 360 405.5 360 432C360 435.4 360.4 438.7 361 441.9C363.1 452.1 367.5 461.9 371.8 471.8C377.9 485.6 383.9 499.3 383.9 513.8C383.9 545.6 362.3 574.5 330.5 575.8C327 575.9 323.5 576 319.9 576C178.5 576 63.9 461.4 63.9 320C63.9 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320zM192 352C192 334.3 177.7 320 160 320C142.3 320 128 334.3 128 352C128 369.7 142.3 384 160 384C177.7 384 192 369.7 192 352zM192 256C209.7 256 224 241.7 224 224C224 206.3 209.7 192 192 192C174.3 192 160 206.3 160 224C160 241.7 174.3 256 192 256zM352 160C352 142.3 337.7 128 320 128C302.3 128 288 142.3 288 160C288 177.7 302.3 192 320 192C337.7 192 352 177.7 352 160zM448 256C465.7 256 480 241.7 480 224C480 206.3 465.7 192 448 192C430.3 192 416 206.3 416 224C416 241.7 430.3 256 448 256z"/></svg>Look Awesome</a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M432 423.8a176 176 0 1 0-224 0c.4 17.6 3.2 40.4 6.4 61.8a224 224 0 1 1 211.1 0c3.3-21.4 6-44.2 6.4-61.8zm-14-53.4a86 86 0 0 0-30.4-27.8l-6.3-3.2a80 80 0 1 0-122.4 0q-3.2 1.4-6.3 3.2a86 86 0 0 0-30.4 27.8 128 128 0 1 1 195.8 0m-98 5.6c32.9 0 64 8.6 64 43.8 0 33-12.9 104.1-20.6 132.9-5.1 19-24.5 23.4-43.4 23.4s-38.2-4.4-43.4-23.4C268.8 524.2 256 453 256 419.9c0-35.1 31.1-43.8 64-43.8zm0-128a40 40 0 1 1 0 80 40 40 0 0 1 0-80"/></svg>Podcast Awesome</a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M64 480V184a24 24 0 1 1 48 0v288a24 24 0 1 0 48 0V160a64 64 0 0 1 64-64h288a64 64 0 0 1 64 64v320a64 64 0 0 1-64 64H128a64 64 0 0 1-64-64m160-288v64a32 32 0 0 0 32 32h64a32 32 0 0 0 32-32v-64a32 32 0 0 0-32-32h-64a32 32 0 0 0-32 32m24 240a24 24 0 1 0 0 48h240a24 24 0 1 0 0-48zm-24-72a24 24 0 0 0 24 24h240a24 24 0 1 0 0-48H248a24 24 0 0 0-24 24m200-120a24 24 0 1 0 0 48h64a24 24 0 1 0 0-48z"/></svg>Blog Awesome</a>
-				</nav>
-			</awesome-nav>
+			<h2>Preview</h2>
+			<div class="previews">
+				<figure class="preview" style="--preview-width: 375px">
+					<figcaption>375px</figcaption>
+					<iframe class="preview-frame" title="Navbar preview at 375px" height="120"></iframe>
+				</figure>
+				<figure class="preview" style="--preview-width: 768px">
+					<figcaption>768px</figcaption>
+					<iframe class="preview-frame" title="Navbar preview at 768px" height="120"></iframe>
+				</figure>
+				<figure class="preview" style="--preview-width: 100%">
+					<figcaption>Full width</figcaption>
+					<iframe class="preview-frame" title="Navbar preview at full width" height="120"></iframe>
+				</figure>
+			</div>
+			<p class="note">Each preview is its own iframe, so the navbar’s <code>620px</code> media query applies at that width. Below it, non-primary labels collapse to icons with tooltips.</p>
 
-			<p>Always <code>light</code> theme</p>
-			<awesome-nav theme="light">
-				<nav>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M10 2a7 7 0 0 1 7 7c0 3.2-2.8 6.3-5.2 7.5l.6 1.3a.8.8 0 0 1-.7 1.2H8.3a.8.8 0 0 1-.7-1.2l.6-1.3C5.8 15.3 3 12.2 3 9a7 7 0 0 1 7-7m-.3 3.1q-.1-.7-.8-.6-1.3.3-2.2 1.2-.9 1-1.2 2.2A.8.8 0 0 0 7 8q.1-.7.8-1.3.6-.6 1.3-.8t.6-.9"/></svg>Build Awesome</a>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M155.7 160a52 52 0 1 0-59.7-3v419h64v-64h373.6a26.4 26.4 0 0 0 24.1-37.1L496 336l61.7-138.9a26.4 26.4 0 0 0-24.1-37.1z"/></svg>Font Awesome</a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M372.2 116C372.2 136.9 359.8 155 342 163.2L448 256L552.4 235.1C547.1 227.4 544 218 544 208C544 181.5 565.5 160 592 160C618.5 160 640 181.5 640 208C640 234 619.4 255.1 593.6 256L481 506.3C470.7 529.3 447.8 544 422.6 544L217.4 544C192.2 544 169.4 529.2 159 506.3L46.4 256C20.6 255.1 0 234 0 208C0 181.5 21.5 160 48 160C74.5 160 96 181.5 96 208C96 218.1 92.9 227.4 87.6 235.1L192 256L298.1 163.1C280.4 154.8 268.1 136.8 268.1 116C268.1 87.3 291.4 64 320.1 64C348.8 64 372.1 87.3 372.1 116z"/></svg>Web Awesome</a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M576 320C576 320.9 576 321.8 576 322.7C575.6 359.2 542.4 384 505.9 384L408 384C381.5 384 360 405.5 360 432C360 435.4 360.4 438.7 361 441.9C363.1 452.1 367.5 461.9 371.8 471.8C377.9 485.6 383.9 499.3 383.9 513.8C383.9 545.6 362.3 574.5 330.5 575.8C327 575.9 323.5 576 319.9 576C178.5 576 63.9 461.4 63.9 320C63.9 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320zM192 352C192 334.3 177.7 320 160 320C142.3 320 128 334.3 128 352C128 369.7 142.3 384 160 384C177.7 384 192 369.7 192 352zM192 256C209.7 256 224 241.7 224 224C224 206.3 209.7 192 192 192C174.3 192 160 206.3 160 224C160 241.7 174.3 256 192 256zM352 160C352 142.3 337.7 128 320 128C302.3 128 288 142.3 288 160C288 177.7 302.3 192 320 192C337.7 192 352 177.7 352 160zM448 256C465.7 256 480 241.7 480 224C480 206.3 465.7 192 448 192C430.3 192 416 206.3 416 224C416 241.7 430.3 256 448 256z"/></svg>Look Awesome</a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M432 423.8a176 176 0 1 0-224 0c.4 17.6 3.2 40.4 6.4 61.8a224 224 0 1 1 211.1 0c3.3-21.4 6-44.2 6.4-61.8zm-14-53.4a86 86 0 0 0-30.4-27.8l-6.3-3.2a80 80 0 1 0-122.4 0q-3.2 1.4-6.3 3.2a86 86 0 0 0-30.4 27.8 128 128 0 1 1 195.8 0m-98 5.6c32.9 0 64 8.6 64 43.8 0 33-12.9 104.1-20.6 132.9-5.1 19-24.5 23.4-43.4 23.4s-38.2-4.4-43.4-23.4C268.8 524.2 256 453 256 419.9c0-35.1 31.1-43.8 64-43.8zm0-128a40 40 0 1 1 0 80 40 40 0 0 1 0-80"/></svg>Podcast Awesome</a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M64 480V184a24 24 0 1 1 48 0v288a24 24 0 1 0 48 0V160a64 64 0 0 1 64-64h288a64 64 0 0 1 64 64v320a64 64 0 0 1-64 64H128a64 64 0 0 1-64-64m160-288v64a32 32 0 0 0 32 32h64a32 32 0 0 0 32-32v-64a32 32 0 0 0-32-32h-64a32 32 0 0 0-32 32m24 240a24 24 0 1 0 0 48h240a24 24 0 1 0 0-48zm-24-72a24 24 0 0 0 24 24h240a24 24 0 1 0 0-48H248a24 24 0 0 0-24 24m200-120a24 24 0 1 0 0 48h64a24 24 0 1 0 0-48z"/></svg>Blog Awesome</a>
-				</nav>
-			</awesome-nav>
+			<h2>Add to your <code>&lt;head&gt;</code> <button type="button" data-copy="out-head">Copy</button></h2>
+			<div class="output"><pre><code id="out-head"></code></pre></div>
+			<p class="note" id="deps-note" hidden></p>
 
-			<p>Always <code>dark</code> theme</p>
-			<awesome-nav theme="dark">
-				<nav>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M10 2a7 7 0 0 1 7 7c0 3.2-2.8 6.3-5.2 7.5l.6 1.3a.8.8 0 0 1-.7 1.2H8.3a.8.8 0 0 1-.7-1.2l.6-1.3C5.8 15.3 3 12.2 3 9a7 7 0 0 1 7-7m-.3 3.1q-.1-.7-.8-.6-1.3.3-2.2 1.2-.9 1-1.2 2.2A.8.8 0 0 0 7 8q.1-.7.8-1.3.6-.6 1.3-.8t.6-.9"/></svg>Build Awesome</a>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M155.7 160a52 52 0 1 0-59.7-3v419h64v-64h373.6a26.4 26.4 0 0 0 24.1-37.1L496 336l61.7-138.9a26.4 26.4 0 0 0-24.1-37.1z"/></svg>Font Awesome</a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M372.2 116C372.2 136.9 359.8 155 342 163.2L448 256L552.4 235.1C547.1 227.4 544 218 544 208C544 181.5 565.5 160 592 160C618.5 160 640 181.5 640 208C640 234 619.4 255.1 593.6 256L481 506.3C470.7 529.3 447.8 544 422.6 544L217.4 544C192.2 544 169.4 529.2 159 506.3L46.4 256C20.6 255.1 0 234 0 208C0 181.5 21.5 160 48 160C74.5 160 96 181.5 96 208C96 218.1 92.9 227.4 87.6 235.1L192 256L298.1 163.1C280.4 154.8 268.1 136.8 268.1 116C268.1 87.3 291.4 64 320.1 64C348.8 64 372.1 87.3 372.1 116z"/></svg>Web Awesome</a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M576 320C576 320.9 576 321.8 576 322.7C575.6 359.2 542.4 384 505.9 384L408 384C381.5 384 360 405.5 360 432C360 435.4 360.4 438.7 361 441.9C363.1 452.1 367.5 461.9 371.8 471.8C377.9 485.6 383.9 499.3 383.9 513.8C383.9 545.6 362.3 574.5 330.5 575.8C327 575.9 323.5 576 319.9 576C178.5 576 63.9 461.4 63.9 320C63.9 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320zM192 352C192 334.3 177.7 320 160 320C142.3 320 128 334.3 128 352C128 369.7 142.3 384 160 384C177.7 384 192 369.7 192 352zM192 256C209.7 256 224 241.7 224 224C224 206.3 209.7 192 192 192C174.3 192 160 206.3 160 224C160 241.7 174.3 256 192 256zM352 160C352 142.3 337.7 128 320 128C302.3 128 288 142.3 288 160C288 177.7 302.3 192 320 192C337.7 192 352 177.7 352 160zM448 256C465.7 256 480 241.7 480 224C480 206.3 465.7 192 448 192C430.3 192 416 206.3 416 224C416 241.7 430.3 256 448 256z"/></svg>Look Awesome</a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M432 423.8a176 176 0 1 0-224 0c.4 17.6 3.2 40.4 6.4 61.8a224 224 0 1 1 211.1 0c3.3-21.4 6-44.2 6.4-61.8zm-14-53.4a86 86 0 0 0-30.4-27.8l-6.3-3.2a80 80 0 1 0-122.4 0q-3.2 1.4-6.3 3.2a86 86 0 0 0-30.4 27.8 128 128 0 1 1 195.8 0m-98 5.6c32.9 0 64 8.6 64 43.8 0 33-12.9 104.1-20.6 132.9-5.1 19-24.5 23.4-43.4 23.4s-38.2-4.4-43.4-23.4C268.8 524.2 256 453 256 419.9c0-35.1 31.1-43.8 64-43.8zm0-128a40 40 0 1 1 0 80 40 40 0 0 1 0-80"/></svg>Podcast Awesome</a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M64 480V184a24 24 0 1 1 48 0v288a24 24 0 1 0 48 0V160a64 64 0 0 1 64-64h288a64 64 0 0 1 64 64v320a64 64 0 0 1-64 64H128a64 64 0 0 1-64-64m160-288v64a32 32 0 0 0 32 32h64a32 32 0 0 0 32-32v-64a32 32 0 0 0-32-32h-64a32 32 0 0 0-32 32m24 240a24 24 0 1 0 0 48h240a24 24 0 1 0 0-48zm-24-72a24 24 0 0 0 24 24h240a24 24 0 1 0 0-48H248a24 24 0 0 0-24 24m200-120a24 24 0 1 0 0 48h64a24 24 0 1 0 0-48z"/></svg>Blog Awesome</a>
-				</nav>
-			</awesome-nav>
-
-			<h2>webawesome.com</h2>
-			<p>Using <code>&lt;wa-icon&gt;</code> (except for Build Awesome balloon): all require JavaScript. <code>~83em</code> max width.</p>
-			<awesome-nav style="--awesome-nav-max: 83.1875em">
-				<nav>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><wa-icon name="web-awesome" family="brands"></wa-icon>Web Awesome</a>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><wa-icon name="font-awesome" family="brands"></wa-icon>Font Awesome</a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><wa-icon name="build-awesome" family="brands"></wa-icon>Build Awesome</a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><wa-icon name="palette"></wa-icon>Look Awesome</a>
-					<span class="awesome-spacer"></span>
-				</nav>
-			</awesome-nav>
-
-			<p>Always <code>light</code> theme</p>
-			<awesome-nav style="--awesome-nav-max: 83.1875em" theme="light">
-				<nav>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><wa-icon name="web-awesome" family="brands"></wa-icon>Web Awesome</a>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><wa-icon name="font-awesome" family="brands"></wa-icon>Font Awesome</a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><wa-icon name="build-awesome" family="brands"></wa-icon>Build Awesome</a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><wa-icon name="palette"></wa-icon>Look Awesome</a>
-					<span class="awesome-spacer"></span>
-				</nav>
-			</awesome-nav>
-
-			<p>Always <code>dark</code> theme</p>
-			<awesome-nav style="--awesome-nav-max: 83.1875em" theme="dark">
-				<nav>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><wa-icon name="web-awesome" family="brands"></wa-icon>Web Awesome</a>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><wa-icon name="font-awesome" family="brands"></wa-icon>Font Awesome</a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><wa-icon name="build-awesome" family="brands"></wa-icon>Build Awesome</a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><wa-icon name="palette"></wa-icon>Look Awesome</a>
-					<span class="awesome-spacer"></span>
-				</nav>
-			</awesome-nav>
-
-			<h2>podcastawesome.com</h2>
-			<p>Using Font Awesome <code>&lt;i&gt;</code> (Web Font): no JavaScript required for icons. <code>96em</code> max width.</p>
-			<awesome-nav style="--awesome-nav-max: 96em">
-				<nav>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span></a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><i class="fa-brands fa-web-awesome"></i><span class="awesome-sr-only">Web Awesome</span></a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><i class="fa-brands fa-build-awesome"></i><span class="awesome-sr-only">Build Awesome</span></a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><i class="fa-solid fa-palette"></i><span class="awesome-sr-only">Look Awesome</span></a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast awesome-nav-primary"><i class="fa-solid fa-podcast"></i><span class="awesome-sr-only">Podcast Awesome</span></a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog"><i class="fa-solid fa-newspaper"></i><span class="awesome-sr-only">Blog Awesome</span></a>
-				</nav>
-			</awesome-nav>
-
-			<p>Always <code>light</code> theme</p>
-			<awesome-nav style="--awesome-nav-max: 96em" theme="light">
-				<nav>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span></a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><i class="fa-brands fa-web-awesome"></i><span class="awesome-sr-only">Web Awesome</span></a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><i class="fa-brands fa-build-awesome"></i><span class="awesome-sr-only">Build Awesome</span></a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><i class="fa-solid fa-palette"></i><span class="awesome-sr-only">Look Awesome</span></a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast awesome-nav-primary"><i class="fa-solid fa-podcast"></i><span class="awesome-sr-only">Podcast Awesome</span></a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog"><i class="fa-solid fa-newspaper"></i><span class="awesome-sr-only">Blog Awesome</span></a>
-				</nav>
-			</awesome-nav>
-
-			<p>Always <code>dark</code> theme</p>
-			<awesome-nav style="--awesome-nav-max: 96em" theme="dark">
-				<nav>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span></a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><i class="fa-brands fa-web-awesome"></i><span class="awesome-sr-only">Web Awesome</span></a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><i class="fa-brands fa-build-awesome"></i><span class="awesome-sr-only">Build Awesome</span></a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><i class="fa-solid fa-palette"></i><span class="awesome-sr-only">Look Awesome</span></a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast awesome-nav-primary"><i class="fa-solid fa-podcast"></i><span class="awesome-sr-only">Podcast Awesome</span></a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog"><i class="fa-solid fa-newspaper"></i><span class="awesome-sr-only">Blog Awesome</span></a>
-				</nav>
-			</awesome-nav>
-
-			<h2>blog.fontawesome.com</h2>
-			<p>(Using Build Awesome) Embedded icons: JavaScript not required. <code>45em</code> max width.</p>
-			<awesome-nav style="--awesome-nav-max: 45em">
-				<nav>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span></a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><i class="fa-brands fa-web-awesome"></i><span class="awesome-sr-only">Web Awesome</span></a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><i class="fa-brands fa-build-awesome"></i><span class="awesome-sr-only">Build Awesome</span></a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><i class="fa-solid fa-palette"></i><span class="awesome-sr-only">Look Awesome</span></a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast"><i class="fa-solid fa-podcast"></i><span class="awesome-sr-only">Podcast Awesome</span></a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog awesome-nav-primary"><i class="fa-solid fa-newspaper"></i><span class="awesome-sr-only">Blog Awesome</span></a>
-				</nav>
-			</awesome-nav>
-
-			<p>Always <code>light</code> theme</p>
-			<awesome-nav theme="light" style="--awesome-nav-max: 45em">
-				<nav>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span></a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><i class="fa-brands fa-web-awesome"></i><span class="awesome-sr-only">Web Awesome</span></a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><i class="fa-brands fa-build-awesome"></i><span class="awesome-sr-only">Build Awesome</span></a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><i class="fa-solid fa-palette"></i><span class="awesome-sr-only">Look Awesome</span></a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast"><i class="fa-solid fa-podcast"></i><span class="awesome-sr-only">Podcast Awesome</span></a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog awesome-nav-primary"><i class="fa-solid fa-newspaper"></i><span class="awesome-sr-only">Blog Awesome</span></a>
-				</nav>
-			</awesome-nav>
-
-			<p>Always <code>dark</code> theme</p>
-			<awesome-nav theme="dark" style="--awesome-nav-max: 45em">
-				<nav>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span></a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><i class="fa-brands fa-web-awesome"></i><span class="awesome-sr-only">Web Awesome</span></a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><i class="fa-brands fa-build-awesome"></i><span class="awesome-sr-only">Build Awesome</span></a>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><i class="fa-solid fa-palette"></i><span class="awesome-sr-only">Look Awesome</span></a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast"><i class="fa-solid fa-podcast"></i><span class="awesome-sr-only">Podcast Awesome</span></a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog awesome-nav-primary"><i class="fa-solid fa-newspaper"></i><span class="awesome-sr-only">Blog Awesome</span></a>
-				</nav>
-			</awesome-nav>
-
-			<h2>look.awesome.me</h2>
-			<p>Using Font Awesome <code>&lt;i&gt;</code> (Web Font): no JavaScript required for icons.</p>
-			<awesome-nav style="--awesome-nav-max: 100%">
-				<nav>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><i class="fa-solid fa-palette"></i><span class="awesome-sr-only">Look Awesome</span></a>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span></a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><i class="fa-brands fa-web-awesome"></i><span class="awesome-sr-only">Web Awesome</span></a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><i class="fa-brands fa-build-awesome"></i><span class="awesome-sr-only">Build Awesome</span></a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast"><i class="fa-solid fa-podcast"></i><span class="awesome-sr-only">Podcast Awesome</span></a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog"><i class="fa-solid fa-newspaper"></i><span class="awesome-sr-only">Blog Awesome</span></a>
-				</nav>
-			</awesome-nav>
-
-			<p>Always <code>light</code> theme</p>
-			<awesome-nav theme="light" style="--awesome-nav-max: 100%">
-				<nav>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><i class="fa-solid fa-palette"></i><span class="awesome-sr-only">Look Awesome</span></a>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span></a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><i class="fa-brands fa-web-awesome"></i><span class="awesome-sr-only">Web Awesome</span></a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><i class="fa-brands fa-build-awesome"></i><span class="awesome-sr-only">Build Awesome</span></a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast"><i class="fa-solid fa-podcast"></i><span class="awesome-sr-only">Podcast Awesome</span></a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog"><i class="fa-solid fa-newspaper"></i><span class="awesome-sr-only">Blog Awesome</span></a>
-				</nav>
-			</awesome-nav>
-
-			<p>Always <code>dark</code> theme</p>
-			<awesome-nav theme="dark" style="--awesome-nav-max: 100%">
-				<nav>
-					<a href="https://look.awesome.me/" class="awesome-nav-look"><i class="fa-solid fa-palette"></i><span class="awesome-sr-only">Look Awesome</span></a>
-					<a href="https://fontawesome.com/" class="awesome-nav-font"><i class="fa-brands fa-font-awesome"></i><span class="awesome-sr-only">Font Awesome</span></a>
-					<a href="https://webawesome.com/" class="awesome-nav-web"><i class="fa-brands fa-web-awesome"></i><span class="awesome-sr-only">Web Awesome</span></a>
-					<a href="https://build.awesome.me/" class="awesome-nav-build"><i class="fa-brands fa-build-awesome"></i><span class="awesome-sr-only">Build Awesome</span></a>
-					<span class="awesome-spacer"></span>
-					<a href="https://www.podcastawesome.com/" class="awesome-nav-podcast"><i class="fa-solid fa-podcast"></i><span class="awesome-sr-only">Podcast Awesome</span></a>
-					<a href="https://blog.fontawesome.com/" class="awesome-nav-blog"><i class="fa-solid fa-newspaper"></i><span class="awesome-sr-only">Blog Awesome</span></a>
-				</nav>
-			</awesome-nav>
+			<h2>Markup <button type="button" data-copy="out-body">Copy</button></h2>
+			<div class="output"><pre><code id="out-body"></code></pre></div>
 		</main>
+
+		<script type="module">
+const SVG = {
+	font: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M155.7 160a52 52 0 1 0-59.7-3v419h64v-64h373.6a26.4 26.4 0 0 0 24.1-37.1L496 336l61.7-138.9a26.4 26.4 0 0 0-24.1-37.1z"/></svg>`,
+	web: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M372.2 116C372.2 136.9 359.8 155 342 163.2L448 256L552.4 235.1C547.1 227.4 544 218 544 208C544 181.5 565.5 160 592 160C618.5 160 640 181.5 640 208C640 234 619.4 255.1 593.6 256L481 506.3C470.7 529.3 447.8 544 422.6 544L217.4 544C192.2 544 169.4 529.2 159 506.3L46.4 256C20.6 255.1 0 234 0 208C0 181.5 21.5 160 48 160C74.5 160 96 181.5 96 208C96 218.1 92.9 227.4 87.6 235.1L192 256L298.1 163.1C280.4 154.8 268.1 136.8 268.1 116C268.1 87.3 291.4 64 320.1 64C348.8 64 372.1 87.3 372.1 116z"/></svg>`,
+	build: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M10 2a7 7 0 0 1 7 7c0 3.2-2.8 6.3-5.2 7.5l.6 1.3a.8.8 0 0 1-.7 1.2H8.3a.8.8 0 0 1-.7-1.2l.6-1.3C5.8 15.3 3 12.2 3 9a7 7 0 0 1 7-7m-.3 3.1q-.1-.7-.8-.6-1.3.3-2.2 1.2-.9 1-1.2 2.2A.8.8 0 0 0 7 8q.1-.7.8-1.3.6-.6 1.3-.8t.6-.9"/></svg>`,
+	look: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M576 320C576 320.9 576 321.8 576 322.7C575.6 359.2 542.4 384 505.9 384L408 384C381.5 384 360 405.5 360 432C360 435.4 360.4 438.7 361 441.9C363.1 452.1 367.5 461.9 371.8 471.8C377.9 485.6 383.9 499.3 383.9 513.8C383.9 545.6 362.3 574.5 330.5 575.8C327 575.9 323.5 576 319.9 576C178.5 576 63.9 461.4 63.9 320C63.9 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320zM192 352C192 334.3 177.7 320 160 320C142.3 320 128 334.3 128 352C128 369.7 142.3 384 160 384C177.7 384 192 369.7 192 352zM192 256C209.7 256 224 241.7 224 224C224 206.3 209.7 192 192 192C174.3 192 160 206.3 160 224C160 241.7 174.3 256 192 256zM352 160C352 142.3 337.7 128 320 128C302.3 128 288 142.3 288 160C288 177.7 302.3 192 320 192C337.7 192 352 177.7 352 160zM448 256C465.7 256 480 241.7 480 224C480 206.3 465.7 192 448 192C430.3 192 416 206.3 416 224C416 241.7 430.3 256 448 256z"/></svg>`,
+	podcast: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M432 423.8a176 176 0 1 0-224 0c.4 17.6 3.2 40.4 6.4 61.8a224 224 0 1 1 211.1 0c3.3-21.4 6-44.2 6.4-61.8zm-14-53.4a86 86 0 0 0-30.4-27.8l-6.3-3.2a80 80 0 1 0-122.4 0q-3.2 1.4-6.3 3.2a86 86 0 0 0-30.4 27.8 128 128 0 1 1 195.8 0m-98 5.6c32.9 0 64 8.6 64 43.8 0 33-12.9 104.1-20.6 132.9-5.1 19-24.5 23.4-43.4 23.4s-38.2-4.4-43.4-23.4C268.8 524.2 256 453 256 419.9c0-35.1 31.1-43.8 64-43.8zm0-128a40 40 0 1 1 0 80 40 40 0 0 1 0-80"/></svg>`,
+	blog: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M64 480V184a24 24 0 1 1 48 0v288a24 24 0 1 0 48 0V160a64 64 0 0 1 64-64h288a64 64 0 0 1 64 64v320a64 64 0 0 1-64 64H128a64 64 0 0 1-64-64m160-288v64a32 32 0 0 0 32 32h64a32 32 0 0 0 32-32v-64a32 32 0 0 0-32-32h-64a32 32 0 0 0-32 32m24 240a24 24 0 1 0 0 48h240a24 24 0 1 0 0-48zm-24-72a24 24 0 0 0 24 24h240a24 24 0 1 0 0-48H248a24 24 0 0 0-24 24m200-120a24 24 0 1 0 0 48h64a24 24 0 1 0 0-48z"/></svg>`,
+};
+
+const SITES = {
+	font: { label: "Font Awesome", href: "https://fontawesome.com/", cls: "awesome-nav-font", fa: "fa-brands fa-font-awesome", wa: `name="font-awesome" family="brands"`, svg: SVG.font },
+	docs: { label: "Font Awesome Docs", href: "https://docs.fontawesome.com/", cls: "", fa: "fa-brands fa-font-awesome", wa: `name="font-awesome" family="brands"`, svg: SVG.font, max: "100%" },
+	web: { label: "Web Awesome", href: "https://webawesome.com/", cls: "awesome-nav-web", fa: "fa-brands fa-web-awesome", wa: `name="web-awesome" family="brands"`, svg: SVG.web, icons: "wa", max: "83.1875em" },
+	build: { label: "Build Awesome", href: "https://build.awesome.me/", cls: "awesome-nav-build", fa: "fa-brands fa-build-awesome", wa: `name="build-awesome" family="brands"`, svg: SVG.build, icons: "ba" },
+	look: { label: "Look Awesome", href: "https://look.awesome.me/", cls: "awesome-nav-look", fa: "fa-solid fa-palette", wa: `name="palette"`, svg: SVG.look, max: "100%" },
+	podcast: { label: "Podcast Awesome", href: "https://www.podcastawesome.com/", cls: "awesome-nav-podcast", fa: "fa-solid fa-podcast", wa: `name="podcast"`, svg: SVG.podcast, max: "96em" },
+	blog: { label: "Blog Awesome", href: "https://blog.fontawesome.com/", cls: "awesome-nav-blog", fa: "fa-solid fa-newspaper", wa: `name="newspaper"`, svg: SVG.blog, icons: "ba", max: "45em" },
+};
+
+const DEFAULT_MAX = "69em"; /* matches --awesome-nav-max in awesome-nav.css */
+const DEFAULT_ICONS = "fa";
+const LEAD = ["font", "docs", "web", "build", "look"];
+const TRAIL = ["podcast", "blog"];
+const HOISTABLE = new Set(["web", "build", "look"]);
+
+const FA_CSS = `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.0/css/all.css" fetchpriority="low">`;
+const WA_ICONS = `<script type="module" src="https://ka-f.webawesome.com/webawesome@3.10.0/components/icon/icon.js" fetchpriority="low"><\/script>`;
+
+/* Icon dependencies are the site's own concern, so the sample never lists them. */
+const HEAD = [`<link rel="stylesheet" href="/awesome-nav.css">`, `<script type="module" src="/awesome-nav.js"><\/script>`].join("\n");
+
+/* The preview still needs them to render, however the site would supply them. */
+const PREVIEW_DEPS = { fa: FA_CSS, ba: FA_CSS, svg: "", wa: WA_ICONS };
+
+const NOTES = {
+	fa: "The Font Awesome stylesheet isn’t listed here—these sites already load it.",
+	ba: "The Build Awesome icon plugin swaps each <code>&lt;i&gt;</code> for an inline <code>&lt;svg&gt;</code> at build time, so no Font Awesome stylesheet is needed.",
+	wa: "The Web Awesome icon script isn’t listed here—these sites already load it.",
+};
+
+const DEFAULTS = { primary: "font", theme: "auto", docs: false, look: false, icons: DEFAULT_ICONS, max: DEFAULT_MAX };
+const STORAGE_KEY = "awesome-nav-builder";
+
+let form = document.getElementById("builder");
+let previews = [...document.querySelectorAll(".preview-frame")];
+let outHead = document.getElementById("out-head");
+let outBody = document.getElementById("out-body");
+let depsNote = document.getElementById("deps-note");
+
+function icon(site, mode) {
+	if (mode === "svg") return site.svg;
+	if (mode === "wa") return `<wa-icon ${site.wa}></wa-icon>`;
+	return `<i class="${site.fa}"></i>`;
+}
+
+function link(id, state) {
+	let site = SITES[id];
+	let isPrimary = id === state.primary;
+	let classes = [site.cls, isPrimary ? "awesome-nav-primary" : ""].filter(Boolean).join(" ");
+	let label = `<span class="awesome-sr-only">${site.label}</span>`;
+	return `<a href="${site.href}"${classes ? ` class="${classes}"` : ""} data-tooltip="${site.label}">${icon(site, state.icons)}${label}</a>`;
+}
+
+function order(state) {
+	let lead = LEAD.filter(id => (id === "docs" ? state.docs : id === "look" ? state.look : true));
+	if (HOISTABLE.has(state.primary)) {
+		lead = [state.primary, ...lead.filter(id => id !== state.primary)];
+	}
+	return [...lead, "spacer", ...TRAIL];
+}
+
+function markup(state) {
+	let max = state.max.trim();
+	let attrs = [state.theme !== "auto" ? ` theme="${state.theme}"` : "", max && max !== DEFAULT_MAX ? ` style="--awesome-nav-max: ${max}"` : ""].join("");
+	let rows = order(state).map(id => (id === "spacer" ? `\t\t<span class="awesome-spacer"></span>` : `\t\t${link(id, state)}`));
+	return `<awesome-nav${attrs}>\n\t<nav>\n${rows.join("\n")}\n\t</nav>\n</awesome-nav>`;
+}
+
+function readState() {
+	let data = new FormData(form);
+	return {
+		primary: data.get("primary"),
+		theme: data.get("theme"),
+		docs: form.elements.docs.checked,
+		look: form.elements.look.checked,
+		icons: data.get("icons"),
+		max: data.get("max"),
+	};
+}
+
+function writeState(state) {
+	form.elements.primary.value = state.primary;
+	form.elements.icons.value = state.icons;
+	form.querySelector(`[name="theme"][value="${state.theme}"]`).checked = true;
+	form.elements.docs.checked = state.docs;
+	form.elements.look.checked = state.look;
+	form.elements.max.value = state.max;
+	lastPrimary = state.primary;
+}
+
+/* Max width and icon source follow the primary site, until edited by hand. */
+let lastPrimary;
+
+function syncPrimary(primary) {
+	if (primary === lastPrimary) {
+		return;
+	}
+	lastPrimary = primary;
+	form.elements.max.value = SITES[primary].max ?? DEFAULT_MAX;
+	form.elements.icons.value = SITES[primary].icons ?? DEFAULT_ICONS;
+}
+
+/* What the user asked for, as opposed to what the primary site forces on. */
+let choice = { docs: DEFAULTS.docs, look: DEFAULTS.look };
+
+/* A site cannot be the primary link and also be excluded. */
+function syncOptional(primary) {
+	for (let name of ["docs", "look"]) {
+		let input = form.elements[name];
+		if (!input.disabled) choice[name] = input.checked;
+		input.disabled = primary === name;
+		input.checked = input.disabled || choice[name];
+	}
+}
+
+function render() {
+	syncPrimary(form.elements.primary.value);
+	syncOptional(form.elements.primary.value);
+	let state = readState();
+
+	localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...state, ...choice }));
+
+	outHead.textContent = HEAD;
+	depsNote.innerHTML = NOTES[state.icons] ?? "";
+	depsNote.hidden = !NOTES[state.icons];
+	outBody.textContent = markup(state);
+
+	let base = new URL(".", location.href).href;
+	let doc = `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<base href="${base}">
+<link rel="stylesheet" href="awesome-nav.css">
+<script type="module" src="awesome-nav.js"><\/script>
+${PREVIEW_DEPS[state.icons]}
+<style>html { color-scheme: ${state.theme === "auto" ? "light dark" : state.theme}; } body { margin: 0; background: light-dark(#fff, #0c0c0c); }</style>
+</head>
+<body>
+${markup(state)}
+<script>addEventListener("load", () => parent.postMessage({ awesomeNavHeight: document.documentElement.scrollHeight }, "*"));<\/script>
+</body>
+</html>`;
+
+	for (let frame of previews) {
+		frame.srcdoc = doc;
+	}
+}
+
+addEventListener("message", event => {
+	let frame = previews.find(f => f.contentWindow === event.source);
+	if (frame && event.data?.awesomeNavHeight) {
+		frame.height = event.data.awesomeNavHeight;
+	}
+});
+
+form.addEventListener("input", render);
+form.addEventListener("submit", event => event.preventDefault());
+
+document.getElementById("reset").addEventListener("click", () => {
+	localStorage.removeItem(STORAGE_KEY);
+	choice = { docs: DEFAULTS.docs, look: DEFAULTS.look };
+	writeState(DEFAULTS);
+	render();
+});
+
+for (let button of document.querySelectorAll("[data-copy]")) {
+	button.addEventListener("click", async () => {
+		await navigator.clipboard.writeText(document.getElementById(button.dataset.copy).textContent);
+		button.textContent = "Copied!";
+		setTimeout(() => (button.textContent = "Copy"), 1500);
+	});
+}
+
+try {
+	let saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+	if (saved) writeState({ ...DEFAULTS, ...saved });
+} catch (e) {
+	/* ignore malformed storage */
+}
+
+render();
+		</script>
 	</body>
 </html>
