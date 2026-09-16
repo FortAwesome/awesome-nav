@@ -211,18 +211,15 @@ awesome-nav:not(:defined) {
 		display: none;
 	}
 
-	&:not(:has(.awesome-nav-primary)) a[href]:not(:first-child),
-	&:has(.awesome-nav-primary) a[href]:not(.awesome-nav-primary) {
-		&:has(i, svg) {
-			max-width: calc(1.75em + 2 * var(--awesome-nav-padding)); /* 24.5px /14 */
-			overflow: hidden;
-			white-space: nowrap;
-			color: transparent;
-
-			i, svg {
-				position: absolute;
-			}
-		}
+		/* Same text hiding the JS applies, so icons don’t shift when it loads */
+	&:not(:has(.awesome-nav-primary)) a[href]:not(:first-child):has(i, svg) .awesome-sr-only,
+	&:has(.awesome-nav-primary) a[href]:not(.awesome-nav-primary):has(i, svg) .awesome-sr-only {
+		position: absolute;
+		height: 1px;
+		width: 1px;
+		overflow: hidden;
+		clip: rect(1px, 1px, 1px, 1px);
+		opacity: 0;
 	}
 }
 /* Tooltips are styled in JS */
